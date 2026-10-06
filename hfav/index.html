@@ -1,0 +1,1539 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Hija Favorita · Producción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style></head><body>
+<div class="top">
+  <h1>La Hija Favorita</h1>
+  <p class="sub">Por toma: guarda la imagen, súbela en Flow como fotograma inicial, toca «Copiar prompt», pégalo y genera.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="pjs" id="tab-pjs">Personajes</button><button type="button" class="tab" data-tab="cap1" id="tab-cap1">Cap 1</button><button type="button" class="tab" data-tab="cap2" id="tab-cap2">Cap 2</button><button type="button" class="tab" data-tab="cap3" id="tab-cap3">Cap 3</button><button type="button" class="tab" data-tab="cap4" id="tab-cap4">Cap 4</button></nav>
+</div>
+<section class="panel" id="pjs"><div class="cap-head"><h2>Crear en Flow una sola vez</h2><p>Flow → Caracteres → nuevo: nombre, ficha, voz y pega la descripción.</p></div><div class="grid"><article class="shot">
+  <header class="shot-head"><span class="sid">Don Durazno HFAV</span><span class="dur">Orus</span></header>
+  <p class="meta">Padre y fundador · voz alternativa: Schedar</p>
+  <img class="ficha" src="img/ficha_don_durazno.jpg" alt="Ficha de Don Durazno" loading="lazy">
+  <button class="copy" type="button" data-target="d-Don Durazno">Copiar descripción</button>
+  <textarea class="ptext" id="d-Don Durazno" readonly rows="4">Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle. VOICE: Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Fresa HFAV</span><span class="dur">Kore</span></header>
+  <p class="meta">Hija mayor, la candidata obvia · voz alternativa: Autonoe</p>
+  <img class="ficha" src="img/ficha_fresa.jpg" alt="Ficha de Fresa" loading="lazy">
+  <button class="copy" type="button" data-target="d-Fresa">Copiar descripción</button>
+  <textarea class="ptext" id="d-Fresa" readonly rows="4">Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch. VOICE: Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Guayaba HFAV</span><span class="dur">Sulafat</span></header>
+  <p class="meta">Hija menor, la subestimada · voz alternativa: Leda</p>
+  <img class="ficha" src="img/ficha_guayaba.jpg" alt="Ficha de Guayaba" loading="lazy">
+  <button class="copy" type="button" data-target="d-Guayaba">Copiar descripción</button>
+  <textarea class="ptext" id="d-Guayaba" readonly rows="4">Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet. VOICE: Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Mora HFAV</span><span class="dur">Erinome</span></header>
+  <p class="meta">Asistente ejecutiva de Don Durazno · voz alternativa: Pulcherrima</p>
+  <img class="ficha" src="img/ficha_mora.jpg" alt="Ficha de Mora" loading="lazy">
+  <button class="copy" type="button" data-target="d-Mora">Copiar descripción</button>
+  <textarea class="ptext" id="d-Mora" readonly rows="4">Professional adult woman with a whole glossy blackberry cluster as her head, deep purple-black berries with realistic shine, expressive sculpted feminine face with focused dark eyes, realistic adult human body, charcoal business suit, white blouse, low black heels, and always carrying a slim black folder. VOICE: Adult female voice speaking neutral Latin American Spanish, approximately 32-38 years old, professional restrained tone, precise diction, medium-slow pacing, low emotional variation, concise delivery, calm and efficient, slightly dry without sounding robotic.</textarea>
+</article></div></section><section class="panel" id="cap1"><div class="cap-head"><h2>Capítulo 1 · Las dos cajas</h2><p>13 tomas · ~1:52 · Piloto · producir primero</p></div><div class="grid"><article class="shot" id="HFAV_E01_S01">
+  <header class="shot-head"><span class="sid">HFAV_E01_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E01_S01.jpg" alt="Fotograma inicial HFAV_E01_S01" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S01" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+CHARACTER 2 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+CHARACTER 3 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Don Durazno walks slowly to the glass table and places two boxes side by side: one gleaming gold box in front of Fresa, one worn wooden box in front of Guayaba. He looks up at both daughters with a calm, unreadable expression.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Siéntense. Una de ustedes se queda con todo.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: calm authority. &quot;Siéntense&quot; is quiet, almost an order; brief pause before the second sentence.
+
+CAMERA: Wide shot, slow push-in toward the table as the boxes are placed.
+
+AUDIO: Quiet boardroom ambience, low tense underscore starting on the last word.
+
+DURATION: 8s</textarea>
+  <p class="line">Don Durazno: &quot;Siéntense. Una de ustedes se queda con todo.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S01" data-key="HFAV_E01_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S02">
+  <header class="shot-head"><span class="sid">HFAV_E01_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E01_S02.jpg" alt="Fotograma inicial HFAV_E01_S02" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S02" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Fresa runs a finger along the edge of the gold box, glances sideways toward her sister with a sharp, sarcastic half-smile.
+
+DIALOGUE (Fresa, Spanish): &quot;Dorada para mí, de madera para ti. Creo que papá ya decidió.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: confident. Light amused tone, a tiny sarcastic laugh before &quot;Creo&quot;, looking at her sister.
+
+CAMERA: Medium close-up on Fresa, static.
+
+AUDIO: Quiet boardroom ambience, no music.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;Dorada para mí, de madera para ti. Creo que papá ya decidió.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S02" data-key="HFAV_E01_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S03">
+  <header class="shot-head"><span class="sid">HFAV_E01_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E01_S03.jpg" alt="Fotograma inicial HFAV_E01_S03" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S03" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Guayaba leans back in her chair, unbothered, gives a light shrug and a playful look toward Fresa.
+
+DIALOGUE (Guayaba, Spanish): &quot;Tranquila, Fresa. Si ya ganaste, deja de preocuparte por mí.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: playful. Relaxed shrug in the voice, a half smile; it should sting a little without sounding angry.
+
+CAMERA: Medium close-up on Guayaba, static.
+
+AUDIO: Quiet boardroom ambience, no music.
+
+DURATION: 8s</textarea>
+  <p class="line">Guayaba: &quot;Tranquila, Fresa. Si ya ganaste, deja de preocuparte por mí.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S03" data-key="HFAV_E01_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S04">
+  <header class="shot-head"><span class="sid">HFAV_E01_S04</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 4 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E01_S04.jpg" alt="Fotograma inicial HFAV_E01_S04" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S04" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Don Durazno rests both hands on top of his cane, speaks slowly and deliberately, explaining the two assignments without revealing details, then turns toward the door.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Fresa, la sucursal norte es tuya. Guayaba, solo necesitas esta dirección.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: firm. Brief pause between the two sentences; the second one softer, almost mysterious.
+
+CAMERA: Medium shot, static, slight low angle to hold his authority.
+
+AUDIO: Quiet boardroom ambience, underscore fades out.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;Fresa, la sucursal norte es tuya. Guayaba, solo necesitas esta dirección.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S04" data-key="HFAV_E01_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S05">
+  <header class="shot-head"><span class="sid">HFAV_E01_S05</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 5 de 13 · Sucursal problematica</p>
+  <img class="frame" src="img/HFAV_E01_S05.jpg" alt="Fotograma inicial HFAV_E01_S05" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S05" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Warm mid-level company branch office: rows of wooden desks with brass lamps, a glass-walled manager office in the back, slightly worn furniture, stacked folders, warm pendant lights, cozy but less luxurious, no visible readable text.
+
+SHOT ACTION: Fresa walks briskly through the branch office, anthropomorphic fruit employees — a pear and an apple, each with a whole realistic fruit as their head and a realistic adult human body — straighten up as she passes, she stops at the glass-walled office of an anthropomorphic melon manager and taps a folder on the desk with confident authority.
+
+DIALOGUE (Fresa, Spanish): &quot;Buenos días a todos. Quiero estos números corregidos para esta tarde, sin excusas.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: confident. Polite greeting, then crisp and decisive; slight emphasis on &quot;sin excusas&quot;.
+
+CAMERA: Tracking medium shot following Fresa, settling into a medium shot at the desk.
+
+AUDIO: Office ambience, phones ringing softly in background, light corporate underscore.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;Buenos días a todos. Quiero estos números corregidos para esta tarde, sin excusas.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S05" data-key="HFAV_E01_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S06">
+  <header class="shot-head"><span class="sid">HFAV_E01_S06</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 6 de 13 · Sucursal problematica</p>
+  <img class="frame" src="img/HFAV_E01_S06.jpg" alt="Fotograma inicial HFAV_E01_S06" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S06" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Warm mid-level company branch office: rows of wooden desks with brass lamps, a glass-walled manager office in the back, slightly worn furniture, stacked folders, warm pendant lights, cozy but less luxurious, no visible readable text.
+
+SHOT ACTION: Fresa reviews a tablet of rising numbers, allows herself a small satisfied nod, entirely focused on the figures.
+
+DIALOGUE (Fresa, Spanish): &quot;Doce por ciento en un solo día. Esto sí es progreso.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: confident. Quiet satisfaction, almost to herself, a small proud breath out.
+
+CAMERA: Close-up on Fresa&#x27;s face and the glowing tablet, static.
+
+AUDIO: Office ambience, soft confident underscore.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;Doce por ciento en un solo día. Esto sí es progreso.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S06" data-key="HFAV_E01_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S07">
+  <header class="shot-head"><span class="sid">HFAV_E01_S07</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 7 de 13 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E01_S07.jpg" alt="Fotograma inicial HFAV_E01_S07" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S07" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Guayaba steps into the small shop, looks around at the worn shelves and dim stock, approaches the old wooden counter where an elderly male pear shopkeeper, with a whole realistic ripe pear as his head and a realistic elderly human body, looks tired and worried.
+
+DIALOGUE (Guayaba, Spanish): &quot;Buenas, don Pera. Me manda mi papá. ¿Cómo va todo por aquí, de verdad?&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: concerned. Warm and friendly, as if she already knows him; &quot;de verdad&quot; slower and sincere.
+
+CAMERA: Medium shot, slow handheld drift as she enters.
+
+AUDIO: Quiet shop ambience, a small bell on the door, warm soft underscore begins.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;Buenas, don Pera. Me manda mi papá. ¿Cómo va todo por aquí, de verdad?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S07" data-key="HFAV_E01_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S08">
+  <header class="shot-head"><span class="sid">HFAV_E01_S08</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 8 de 13 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E01_S08.jpg" alt="Fotograma inicial HFAV_E01_S08" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S08" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Guayaba looks through unpaid supplier slips on the counter, pauses, then quietly takes out her own money and places it in the elderly pear shopkeeper&#x27;s hand instead of using the company budget.
+
+DIALOGUE (Guayaba, Spanish): &quot;Págueles a sus proveedores con esto. Y no se lo diga a nadie, ¿va?&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: emotional. Soft and complicit, low voice, small smile on &quot;¿va?&quot;.
+
+CAMERA: Medium close-up, slow push-in on her hands and the money.
+
+AUDIO: Quiet shop ambience, warm underscore swells gently.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;Págueles a sus proveedores con esto. Y no se lo diga a nadie, ¿va?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S08" data-key="HFAV_E01_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S09">
+  <header class="shot-head"><span class="sid">HFAV_E01_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 13 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E01_S09.jpg" alt="Fotograma inicial HFAV_E01_S09" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S09" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Medium close-up of the elderly male pear shopkeeper behind the counter, whole realistic ripe pear head, realistic elderly human hands holding the money Guayaba gave him, eyes wet, a grateful trembling smile toward her (she is off-screen).
+
+DIALOGUE (Tendero, Spanish): &quot;Dios te lo pague, mija. Igualita a tu papá.&quot;
+
+VOICE / DELIVERY: Extra voice (elderly pear shopkeeper): Elderly male voice speaking neutral Latin American Spanish, approximately 70 years old, soft trembling warm tone, slow pacing, humble and grateful, voice cracking with emotion. Emotion layer: grateful. Brief pause after &quot;mija&quot;.
+
+CAMERA: Medium close-up, static, warm lamp light on his face.
+
+AUDIO: Quiet shop ambience, warm underscore holds.
+
+DURATION: 8s</textarea>
+  <p class="line">Tendero: &quot;Dios te lo pague, mija. Igualita a tu papá.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S09" data-key="HFAV_E01_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S10">
+  <header class="shot-head"><span class="sid">HFAV_E01_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 13 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E01_S10.jpg" alt="Fotograma inicial HFAV_E01_S10" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S10" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Right after helping the shopkeeper, Guayaba turns away from the counter, looks directly into the camera breaking the fourth wall, raises one eyebrow with a playful knowing smile, leans slightly toward the lens and speaks to the audience in a light conspiratorial tone. The shop stays quiet and empty behind her.
+
+DIALOGUE (Guayaba, Spanish): &quot;¿Quieres aprender a crear videos así? Comenta COMUNIDAD.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: playful. Fourth-wall aside: same warm, spontaneous voice with a conspiratorial wink. Never an announcer or advertising tone.
+
+CAMERA: Medium close-up, static, then a subtle push-in as she looks into the lens; she holds eye contact for the final beat.
+
+AUDIO: Quiet shop ambience, underscore drops to a single playful pizzicato note under her line.
+
+DURATION: 8s</textarea>
+  <p class="line">Guayaba (a cámara): &quot;¿Quieres aprender a crear videos así? Comenta COMUNIDAD.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S10" data-key="HFAV_E01_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S11">
+  <header class="shot-head"><span class="sid">HFAV_E01_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 13 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E01_S11.jpg" alt="Fotograma inicial HFAV_E01_S11" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S11" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa stands alone by the window of an empty office, looking proud but visibly isolated, the city light reflecting off her watch.
+
+DIALOGUE (Fresa, Spanish): &quot;Nadie me aplaude, pero alguien tenía que hacerlo bien.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: defensive. Proud but a little hurt, restrained, a tired breath before &quot;pero&quot;.
+
+CAMERA: Medium shot, static, cool backlight from the window.
+
+AUDIO: Quiet office ambience, underscore turns slightly melancholic.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;Nadie me aplaude, pero alguien tenía que hacerlo bien.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S11" data-key="HFAV_E01_S11"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S12">
+  <header class="shot-head"><span class="sid">HFAV_E01_S12</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 12 de 13 · Pasillo / recepcion corporativa</p>
+  <img class="frame" src="img/HFAV_E01_S12.jpg" alt="Fotograma inicial HFAV_E01_S12" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S12">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S12" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Mora): Professional adult woman with a whole glossy blackberry cluster as her head, deep purple-black berries with realistic shine, expressive sculpted feminine face with focused dark eyes, realistic adult human body, charcoal business suit, white blouse, low black heels, and always carrying a slim black folder.
+
+VOICE LOCK (Mora): Adult female voice speaking neutral Latin American Spanish, approximately 32-38 years old, professional restrained tone, precise diction, medium-slow pacing, low emotional variation, concise delivery, calm and efficient, slightly dry without sounding robotic.
+
+LOCATION: Grand corporate lobby: shiny cream marble floor, a sweeping double staircase with gold railings, crystal chandeliers, a gold reception desk, tall arched windows, flower arrangements in gold vases, no visible readable text.
+
+SHOT ACTION: Mora stands near the lobby window holding her black folder against her chest, phone to her ear, speaking quietly and precisely.
+
+DIALOGUE (Mora, Spanish): &quot;Señor, Guayaba usó su propio dinero. Lo que usted esperaba.&quot;
+
+VOICE / DELIVERY: Use Mora&#x27;s fixed VOICE LOCK. Emotion layer: discreetly satisfied. Low and precise into the phone; tiny pause before the last sentence.
+
+CAMERA: Medium shot, static, slightly low key lighting.
+
+AUDIO: Quiet lobby ambience, tense underscore rises.
+
+DURATION: 8s</textarea>
+  <p class="line">Mora: &quot;Señor, Guayaba usó su propio dinero. Lo que usted esperaba.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S12_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S12" data-key="HFAV_E01_S12"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E01_S13">
+  <header class="shot-head"><span class="sid">HFAV_E01_S13</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 13 de 13 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E01_S13.jpg" alt="Fotograma inicial HFAV_E01_S13" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E01_S13">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E01_S13" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno, phone to his ear, leans slightly on his cane by the window, a small knowing expression crossing his face.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Bien. Entonces que empiece la segunda prueba.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: quietly proud. &quot;Bien&quot; alone, satisfied; slow, knowing calm on the rest.
+
+CAMERA: Medium close-up, slow push-in, hold on his face as the screen cuts to black.
+
+AUDIO: Quiet office ambience, tense underscore peaks and cuts to silence.
+
+DURATION: 8s</textarea>
+  <p class="line">Don Durazno: &quot;Bien. Entonces que empiece la segunda prueba.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E01_S13_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E01_S13" data-key="HFAV_E01_S13"> Hecha</label></div>
+</article></div></section><section class="panel" id="cap2"><div class="cap-head"><h2>Capítulo 2 · La que va ganando</h2><p>12 tomas · ~1:48 · Listo · después del piloto</p></div><div class="grid"><article class="shot" id="HFAV_E02_S01">
+  <header class="shot-head"><span class="sid">HFAV_E02_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 12 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E02_S01.jpg" alt="Fotograma inicial HFAV_E02_S01" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S01" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno sits behind his desk, slowly closes a report, looks up directly at the camera&#x27;s eyeline, calm but final.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Fresa, tus números son perfectos. Y aun así perdiste.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: firm. Slow; clear pause before &quot;Y aun así&quot;.
+
+CAMERA: Medium shot, static, centered composition.
+
+AUDIO: Quiet office ambience, low tense underscore begins.
+
+DURATION: 8s</textarea>
+  <p class="line">Don Durazno: &quot;Fresa, tus números son perfectos. Y aun así perdiste.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S01" data-key="HFAV_E02_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S02">
+  <header class="shot-head"><span class="sid">HFAV_E02_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 12 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E02_S02.jpg" alt="Fotograma inicial HFAV_E02_S02" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S02" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa stands abruptly, hands flat on the desk, leaning forward in disbelief.
+
+DIALOGUE (Fresa, Spanish): &quot;¿Perdí? Subí la sucursal un doce por ciento. Eso no tiene sentido.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: frustrated. Disbelief, slightly faster, still articulate; short incredulous laugh on &quot;¿Perdí?&quot;.
+
+CAMERA: Medium close-up, slight low angle from the desk.
+
+AUDIO: Quiet office ambience, tense underscore continues.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;¿Perdí? Subí la sucursal un doce por ciento. Eso no tiene sentido.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S02" data-key="HFAV_E02_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S03">
+  <header class="shot-head"><span class="sid">HFAV_E02_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 12 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E02_S03.jpg" alt="Fotograma inicial HFAV_E02_S03" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S03" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Guayaba stands near the door, equally confused, arms crossed loosely, glancing between her father and sister.
+
+DIALOGUE (Guayaba, Spanish): &quot;Yo casi no vendí nada y gané. Ni yo entiendo, papá.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: confused. Honest, a little awkward, half laugh.
+
+CAMERA: Medium shot, static.
+
+AUDIO: Quiet office ambience, underscore softens slightly.
+
+DURATION: 8s</textarea>
+  <p class="line">Guayaba: &quot;Yo casi no vendí nada y gané. Ni yo entiendo, papá.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S03" data-key="HFAV_E02_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S04">
+  <header class="shot-head"><span class="sid">HFAV_E02_S04</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 4 de 12 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E02_S04.jpg" alt="Fotograma inicial HFAV_E02_S04" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S04" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno rises slowly, using his cane, walks a few steps toward the window, explaining the next assignment without turning around.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Fresa, arregla el pleito de tu equipo. Guayaba, vende todo el inventario hoy.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: firm. Brief pause between the two orders.
+
+CAMERA: Medium shot, slow tracking as he walks toward the window.
+
+AUDIO: Quiet office ambience, underscore fades out.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;Fresa, arregla el pleito de tu equipo. Guayaba, vende todo el inventario hoy.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S04" data-key="HFAV_E02_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S05">
+  <header class="shot-head"><span class="sid">HFAV_E02_S05</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 5 de 12 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E02_S05.jpg" alt="Fotograma inicial HFAV_E02_S05" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S05" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Fresa stands at the head of the boardroom table between two tense anthropomorphic fruit employees — a lemon and a melon, each with a whole realistic fruit as their head and a realistic adult human body — raises a calm hand to stop them arguing, speaks with controlled authority.
+
+DIALOGUE (Fresa, Spanish): &quot;Siéntense los dos. Nadie sale de esta sala hasta que lo resolvamos, ¿quedó claro?&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: confident. Calm command, steady volume, firm on &quot;¿quedó claro?&quot;.
+
+CAMERA: Medium shot, static, slight high angle to show her control of the room.
+
+AUDIO: Boardroom ambience, light corporate underscore.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;Siéntense los dos. Nadie sale de esta sala hasta que lo resolvamos, ¿quedó claro?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S05" data-key="HFAV_E02_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S06">
+  <header class="shot-head"><span class="sid">HFAV_E02_S06</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 6 de 12 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E02_S06.jpg" alt="Fotograma inicial HFAV_E02_S06" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S06" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Guayaba moves energetically around the shop, rearranging products, waving in a couple of anthropomorphic fruit passersby — a plum and an orange, each with a whole realistic fruit as their head and a realistic adult human body — with an easy, warm invitation.
+
+DIALOGUE (Guayaba, Spanish): &quot;¡Pasen, pasen! Hoy todo con descuento, pero solo si se lo cuentan a un vecino.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: playful. Upbeat street-vendor energy, smiling, inviting.
+
+CAMERA: Handheld medium shot, light movement following her energy.
+
+AUDIO: Quiet shop ambience, upbeat warm underscore.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;¡Pasen, pasen! Hoy todo con descuento, pero solo si se lo cuentan a un vecino.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S06" data-key="HFAV_E02_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S07">
+  <header class="shot-head"><span class="sid">HFAV_E02_S07</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 7 de 12 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E02_S07.jpg" alt="Fotograma inicial HFAV_E02_S07" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S07" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Fresa stands quietly near the shop entrance, unnoticed, overhearing an anthropomorphic lemon shop worker nearby speak warmly about Guayaba&#x27;s hidden help, her expression shifting from confusion to realization.
+
+DIALOGUE (Fresa, Spanish): &quot;¿Guayaba hizo todo esto? ¿Y por qué nadie me lo dijo?&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: hurt. Whispered to herself so nobody hears; confused, a little hurt.
+
+CAMERA: Medium close-up on Fresa, slow push-in.
+
+AUDIO: Quiet shop ambience, underscore turns reflective.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;¿Guayaba hizo todo esto? ¿Y por qué nadie me lo dijo?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S07" data-key="HFAV_E02_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S08">
+  <header class="shot-head"><span class="sid">HFAV_E02_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 12 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E02_S08.jpg" alt="Fotograma inicial HFAV_E02_S08" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S08" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Insert of an anthropomorphic lemon shop worker — a whole realistic lemon as his head, realistic adult human body — speaking warmly off to the side, gesturing gratefully while arranging shelves, unaware Fresa is listening nearby.
+
+DIALOGUE (Trabajador, Spanish): &quot;Guayaba lleva meses ayudándonos y nunca pidió nada a cambio.&quot;
+
+VOICE / DELIVERY: Extra voice (lemon shop worker): Adult male voice, neutral Latin American Spanish, approximately 40-45 years old, warm humble tone, medium pacing. Emotion layer: grateful. Sincere, simple everyday tone.
+
+CAMERA: Medium close-up on the worker, static.
+
+AUDIO: Quiet shop ambience, reflective underscore continues.
+
+DURATION: 8s</textarea>
+  <p class="line">Trabajador: &quot;Guayaba lleva meses ayudándonos y nunca pidió nada a cambio.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S08" data-key="HFAV_E02_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S09">
+  <header class="shot-head"><span class="sid">HFAV_E02_S09</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 9 de 12 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E02_S09.jpg" alt="Fotograma inicial HFAV_E02_S09" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S09" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+CHARACTER 2 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Fresa approaches Guayaba directly, stopping her mid-task, searching her sister&#x27;s face with genuine confusion rather than anger.
+
+DIALOGUE (Fresa, Spanish): &quot;¿Desde cuándo haces todo esto, Guayaba? ¿Y por qué nunca me dijiste nada?&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: hurt. Quiet, genuine confusion, no anger.
+
+CAMERA: Medium two-shot, static, both sisters framed closely.
+
+AUDIO: Quiet shop ambience, underscore holds a single soft note.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;¿Desde cuándo haces todo esto, Guayaba? ¿Y por qué nunca me dijiste nada?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S09" data-key="HFAV_E02_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S10">
+  <header class="shot-head"><span class="sid">HFAV_E02_S10</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 10 de 12 · Negocio del antiguo colaborador</p>
+  <img class="frame" src="img/HFAV_E02_S10.jpg" alt="Fotograma inicial HFAV_E02_S10" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S10" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Small humble family shop: worn wooden shelves with handmade products and jars, an old wooden counter, a hanging warm lamp, rain-streaked window, slightly cluttered and rustic, warm glow in a modest place, no visible readable text.
+
+SHOT ACTION: Guayaba looks down for a moment, then meets Fresa&#x27;s eyes directly, calm and a little hurt, no sarcasm this time.
+
+DIALOGUE (Guayaba, Spanish): &quot;Desde que entendí que tú nunca mirarías aquí abajo. Nunca preguntaste, Fresa.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: emotional. Calm and a little hurt, no sarcasm; small pause before &quot;Nunca preguntaste&quot;.
+
+CAMERA: Medium close-up on Guayaba, slow push-in.
+
+AUDIO: Quiet shop ambience, underscore swells gently.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;Desde que entendí que tú nunca mirarías aquí abajo. Nunca preguntaste, Fresa.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S10" data-key="HFAV_E02_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S11">
+  <header class="shot-head"><span class="sid">HFAV_E02_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 12 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E02_S11.jpg" alt="Fotograma inicial HFAV_E02_S11" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S11" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa walks into the empty executive office, visibly shaken, opens a desk drawer looking for answers, no dialogue.
+
+DIALOGUE (Fresa, Spanish): &quot;Papá, ¿qué es lo que no me estás diciendo?&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: defensive. Muttered to herself while searching, tense breath.
+
+CAMERA: Medium shot, static, dim evening lighting.
+
+AUDIO: Quiet office ambience, tense underscore rises slowly.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;Papá, ¿qué es lo que no me estás diciendo?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S11" data-key="HFAV_E02_S11"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E02_S12">
+  <header class="shot-head"><span class="sid">HFAV_E02_S12</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 12 de 12 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E02_S12.jpg" alt="Fotograma inicial HFAV_E02_S12" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E02_S12">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E02_S12" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa pulls out DOCUMENT_FRESA, freezes as she reads it, her hand tightens around the page, pure shock on her face.
+
+DIALOGUE (Fresa, Spanish): &quot;¿Reemplazo de presidencia? Esto no puede ser verdad.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: hurt. Breathless shock, low voice, almost a whisper.
+
+CAMERA: Close-up on Fresa and the document, static, hold on her face as the screen cuts to black.
+
+AUDIO: Quiet office ambience, tense underscore peaks and cuts to silence.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;¿Reemplazo de presidencia? Esto no puede ser verdad.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E02_S12_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E02_S12" data-key="HFAV_E02_S12"> Hecha</label></div>
+</article></div></section><section class="panel" id="cap3"><div class="cap-head"><h2>Capítulo 3 · La verdad de Fresa</h2><p>11 tomas · ~1:42 · Listo · después del piloto</p></div><div class="grid"><article class="shot" id="HFAV_E03_S01">
+  <header class="shot-head"><span class="sid">HFAV_E03_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S01.jpg" alt="Fotograma inicial HFAV_E03_S01" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S01" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa bursts through the office door holding DOCUMENT_FRESA, breathing hard, stopping a few steps from the desk.
+
+DIALOGUE (Fresa, Spanish): &quot;¿Todo esto era para sacarme, papá? ¡Dímelo en la cara!&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: frustrated. Faster under pressure, voice tight, still articulate.
+
+CAMERA: Medium shot from behind the desk, static.
+
+AUDIO: Quiet office ambience, tense underscore spikes then settles.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;¿Todo esto era para sacarme, papá? ¡Dímelo en la cara!&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S01" data-key="HFAV_E03_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S02">
+  <header class="shot-head"><span class="sid">HFAV_E03_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S02.jpg" alt="Fotograma inicial HFAV_E03_S02" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S02" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno remains perfectly calm behind his desk, gestures slowly toward the chair in front of him with one hand on his cane.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Siéntate, hija. Y baja la voz.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: calm authority. Unhurried; quieter than her, which makes it stronger.
+
+CAMERA: Medium shot, static, low angle holding his authority.
+
+AUDIO: Quiet office ambience, underscore holds a single low note.
+
+DURATION: 8s</textarea>
+  <p class="line">Don Durazno: &quot;Siéntate, hija. Y baja la voz.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S02" data-key="HFAV_E03_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S03">
+  <header class="shot-head"><span class="sid">HFAV_E03_S03</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 3 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S03.jpg" alt="Fotograma inicial HFAV_E03_S03" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S03" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa sits stiffly on the edge of the chair, document still in hand, voice shaking with controlled anger as she accuses him.
+
+DIALOGUE (Fresa, Spanish): &quot;Favoreciste a Guayaba desde el principio. Años trabajando para ti, y nunca me lo dijiste.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: frustrated. Controlled anger, voice cracking slightly on &quot;años&quot;.
+
+CAMERA: Medium close-up on Fresa, static.
+
+AUDIO: Quiet office ambience, tense underscore continues low.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;Favoreciste a Guayaba desde el principio. Años trabajando para ti, y nunca me lo dijiste.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S03" data-key="HFAV_E03_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S04">
+  <header class="shot-head"><span class="sid">HFAV_E03_S04</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 4 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S04.jpg" alt="Fotograma inicial HFAV_E03_S04" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S04" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno leans forward slightly, taps his cane once against the floor, voice steady but pointed.
+
+DIALOGUE (Don Durazno, Spanish): &quot;¿Y tú ibas a contarme lo que decidiste sin mí?&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: disappointed. Drier, not louder; subtle pause before &quot;sin mí&quot;.
+
+CAMERA: Medium close-up on Don Durazno, slow push-in.
+
+AUDIO: Quiet office ambience, underscore turns darker.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;¿Y tú ibas a contarme lo que decidiste sin mí?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S04" data-key="HFAV_E03_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S05">
+  <header class="shot-head"><span class="sid">HFAV_E03_S05</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 5 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S05.jpg" alt="Fotograma inicial HFAV_E03_S05" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S05" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Mora): Professional adult woman with a whole glossy blackberry cluster as her head, deep purple-black berries with realistic shine, expressive sculpted feminine face with focused dark eyes, realistic adult human body, charcoal business suit, white blouse, low black heels, and always carrying a slim black folder.
+
+VOICE LOCK (Mora): Adult female voice speaking neutral Latin American Spanish, approximately 32-38 years old, professional restrained tone, precise diction, medium-slow pacing, low emotional variation, concise delivery, calm and efficient, slightly dry without sounding robotic.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Mora enters quietly, opens BLACK_FOLDER_MORA, sets it on the desk open to a page, speaking with flat professionalism.
+
+DIALOGUE (Mora, Spanish): &quot;Aquí están, señor. Siete decisiones que ella tomó sin autorización.&quot;
+
+VOICE / DELIVERY: Use Mora&#x27;s fixed VOICE LOCK. Emotion layer: neutral. Flat professional report, precise diction.
+
+CAMERA: Medium shot including Mora and the desk, static.
+
+AUDIO: Quiet office ambience, underscore holds tense.
+
+DURATION: 10s</textarea>
+  <p class="line">Mora: &quot;Aquí están, señor. Siete decisiones que ella tomó sin autorización.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S05" data-key="HFAV_E03_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S06">
+  <header class="shot-head"><span class="sid">HFAV_E03_S06</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 6 de 11 · Sucursal problematica</p>
+  <img class="frame" src="img/HFAV_E03_S06.jpg" alt="Fotograma inicial HFAV_E03_S06" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S06" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+LOCATION: Warm mid-level company branch office: rows of wooden desks with brass lamps, a glass-walled manager office in the back, slightly worn furniture, stacked folders, warm pendant lights, cozy but less luxurious, no visible readable text.
+
+SHOT ACTION: Insert of an anthropomorphic kiwi branch employee — a whole realistic kiwi as his head, realistic adult human body — at a desk, visibly worried, staring at a layoff notice on the desk, silent, no dialogue, a visual consequence of a past decision.
+
+DIALOGUE (Empleado, Spanish): &quot;Veinte años en esta sucursal, y me despiden con una carta.&quot;
+
+VOICE / DELIVERY: Extra voice (kiwi branch employee): Adult male voice speaking neutral Latin American Spanish, approximately 50 years old, tired low tone, slow pacing, quietly hurt. Emotion layer: hurt. Quiet, almost to himself, staring at the letter.
+
+CAMERA: Medium close-up, slow push-in on the worried employee.
+
+AUDIO: Quiet office ambience, somber underscore.
+
+DURATION: 10s</textarea>
+  <p class="line">Empleado: &quot;Veinte años en esta sucursal, y me despiden con una carta.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S06" data-key="HFAV_E03_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S07">
+  <header class="shot-head"><span class="sid">HFAV_E03_S07</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 7 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S07.jpg" alt="Fotograma inicial HFAV_E03_S07" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S07" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Guayaba enters mid-conversation, connects the dots out loud, visibly shaken as she realizes some of the people she helped were hurt by Fresa&#x27;s decisions.
+
+DIALOGUE (Guayaba, Spanish): &quot;Espera. Esa gente que yo ayudé es la misma que tú despediste, Fresa.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: emotional. Shaken realization, slower than usual; &quot;Espera&quot; alone.
+
+CAMERA: Medium shot, static, framing all three loosely.
+
+AUDIO: Quiet office ambience, underscore swells with emotion.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;Espera. Esa gente que yo ayudé es la misma que tú despediste, Fresa.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S07" data-key="HFAV_E03_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S08">
+  <header class="shot-head"><span class="sid">HFAV_E03_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S08.jpg" alt="Fotograma inicial HFAV_E03_S08" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S08" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno raises a hand gently to stop the argument, speaks with quiet finality.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Basta. Ninguna de las dos ha ganado todavía.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: firm. &quot;Basta&quot; quiet and final; slow on the rest.
+
+CAMERA: Medium close-up on Don Durazno, static.
+
+AUDIO: Quiet office ambience, underscore drops to near silence.
+
+DURATION: 8s</textarea>
+  <p class="line">Don Durazno: &quot;Basta. Ninguna de las dos ha ganado todavía.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S08" data-key="HFAV_E03_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S09">
+  <header class="shot-head"><span class="sid">HFAV_E03_S09</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 9 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S09.jpg" alt="Fotograma inicial HFAV_E03_S09" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S09" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno stands, moves slowly around the desk using his cane, explaining that the final test needs both of them together.
+
+DIALOGUE (Don Durazno, Spanish): &quot;La última prueba no la pasa ninguna sola. Se necesitan.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: reflective. Slow; quiet emphasis on &quot;Se necesitan&quot;.
+
+CAMERA: Medium shot, slow tracking as he walks.
+
+AUDIO: Quiet office ambience, underscore builds slowly.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;La última prueba no la pasa ninguna sola. Se necesitan.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S09" data-key="HFAV_E03_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S10">
+  <header class="shot-head"><span class="sid">HFAV_E03_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S10.jpg" alt="Fotograma inicial HFAV_E03_S10" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S10" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+CHARACTER 2 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa and Guayaba exchange a long, tense, uncertain look between each other, neither speaking.
+
+DIALOGUE (Guayaba, Spanish): &quot;¿Juntas? Papá, ella y yo no podemos ni compartir un ascensor.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: playful. Nervous sarcastic laugh, trying to break the tension.
+
+CAMERA: Medium two-shot, static.
+
+AUDIO: Quiet office ambience, underscore holds a single suspended note.
+
+DURATION: 8s</textarea>
+  <p class="line">Guayaba: &quot;¿Juntas? Papá, ella y yo no podemos ni compartir un ascensor.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S10" data-key="HFAV_E03_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E03_S11">
+  <header class="shot-head"><span class="sid">HFAV_E03_S11</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 11 de 11 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E03_S11.jpg" alt="Fotograma inicial HFAV_E03_S11" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E03_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E03_S11" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno looks at both daughters in turn, grips his cane with both hands, delivers the final line slowly before the screen cuts to black.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Mañana no competirán entre ustedes. Competirán contra lo que ustedes mismas construyeron.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: firm. Subtle pause between the two sentences; quiet emphasis on &quot;ustedes mismas&quot;.
+
+CAMERA: Medium close-up, slow push-in, hold on his face as the screen cuts to black.
+
+AUDIO: Quiet office ambience, underscore peaks and cuts to silence.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;Mañana no competirán entre ustedes. Competirán contra lo que ustedes mismas construyeron.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E03_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E03_S11" data-key="HFAV_E03_S11"> Hecha</label></div>
+</article></div></section><section class="panel" id="cap4"><div class="cap-head"><h2>Capítulo 4 · La última prueba</h2><p>13 tomas · ~2:02 · Listo · después del piloto</p></div><div class="grid"><article class="shot" id="HFAV_E04_S01">
+  <header class="shot-head"><span class="sid">HFAV_E04_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E04_S01.jpg" alt="Fotograma inicial HFAV_E04_S01" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S01" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Don Durazno stands at the head of the boardroom table, both daughters seated, he taps a report once with his cane, voice urgent but controlled.
+
+DIALOGUE (Don Durazno, Spanish): &quot;El almacén central cierra en cuarenta y ocho horas.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: concerned. Urgent but controlled, never rushed.
+
+CAMERA: Wide shot, slow push-in toward the table.
+
+AUDIO: Boardroom ambience, urgent low underscore begins.
+
+DURATION: 8s</textarea>
+  <p class="line">Don Durazno: &quot;El almacén central cierra en cuarenta y ocho horas.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S01" data-key="HFAV_E04_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S02">
+  <header class="shot-head"><span class="sid">HFAV_E04_S02</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 2 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E04_S02.jpg" alt="Fotograma inicial HFAV_E04_S02" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S02" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Don Durazno lays out two paths calmly, gesturing with one hand, explaining the easy economic fix versus the harder human one.
+
+DIALOGUE (Don Durazno, Spanish): &quot;El camino fácil daña a la gente. El difícil las necesita a ambas.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: reflective. Brief pause between the two sentences.
+
+CAMERA: Medium shot, static.
+
+AUDIO: Boardroom ambience, underscore holds tense.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;El camino fácil daña a la gente. El difícil las necesita a ambas.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S02" data-key="HFAV_E04_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S03">
+  <header class="shot-head"><span class="sid">HFAV_E04_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E04_S03.jpg" alt="Fotograma inicial HFAV_E04_S03" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S03" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Fresa leans forward, already calculating, confident in proposing the fast economic solution alone.
+
+DIALOGUE (Fresa, Spanish): &quot;Dame dos horas y una calculadora. Lo resuelvo sola, con números.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: confident. Quick and sure of herself, slight smirk.
+
+CAMERA: Medium close-up on Fresa, static.
+
+AUDIO: Boardroom ambience, underscore continues.
+
+DURATION: 8s</textarea>
+  <p class="line">Fresa: &quot;Dame dos horas y una calculadora. Lo resuelvo sola, con números.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S03" data-key="HFAV_E04_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S04">
+  <header class="shot-head"><span class="sid">HFAV_E04_S04</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 4 de 13 · Sala de reuniones</p>
+  <img class="frame" src="img/HFAV_E04_S04.jpg" alt="Fotograma inicial HFAV_E04_S04" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S04" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Luxurious boardroom: a long white marble table with gold edges, blush-pink velvet chairs, crystal chandeliers, tall arched windows with a city skyline, gold accents, flower arrangements, polished marble floor, no visible readable text.
+
+SHOT ACTION: Guayaba shakes her head firmly, leaning in with concern for the people who depend on the company. No other characters visible in this shot.
+
+DIALOGUE (Guayaba, Spanish): &quot;Con números no, Fresa. Ahí trabaja gente que conozco por su nombre.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: determined. Firm and warm, no sarcasm.
+
+CAMERA: Medium close-up on Guayaba, static.
+
+AUDIO: Boardroom ambience, underscore continues.
+
+DURATION: 8s</textarea>
+  <p class="line">Guayaba: &quot;Con números no, Fresa. Ahí trabaja gente que conozco por su nombre.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S04" data-key="HFAV_E04_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S05">
+  <header class="shot-head"><span class="sid">HFAV_E04_S05</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 5 de 13 · Almacen central (prueba final)</p>
+  <img class="frame" src="img/HFAV_E04_S05.jpg" alt="Fotograma inicial HFAV_E04_S05" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S05" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Old distribution warehouse: tall wooden beams and shelves stacked with wooden crates and boxes, hanging warm bulbs, a loading dock door half open with golden light, dusty floor, rustic and lived-in, no visible readable text.
+
+SHOT ACTION: Fresa walks the warehouse floor with a tablet, presenting cold figures to an anthropomorphic melon warehouse manager — a whole realistic melon as his head, realistic adult human body — who grows visibly uneasy at her purely numeric approach.
+
+DIALOGUE (Fresa, Spanish): &quot;Si cortamos este turno completo, salvamos el balance esta misma semana. Es simple.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: confident. Cold and efficient; &quot;Es simple&quot; short and dry.
+
+CAMERA: Medium shot, slow tracking along the shelving.
+
+AUDIO: Warehouse ambience, distant forklift sounds, tense underscore.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;Si cortamos este turno completo, salvamos el balance esta misma semana. Es simple.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S05" data-key="HFAV_E04_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S06">
+  <header class="shot-head"><span class="sid">HFAV_E04_S06</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 6 de 13 · Almacen central (prueba final)</p>
+  <img class="frame" src="img/HFAV_E04_S06.jpg" alt="Fotograma inicial HFAV_E04_S06" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S06" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Old distribution warehouse: tall wooden beams and shelves stacked with wooden crates and boxes, hanging warm bulbs, a loading dock door half open with golden light, dusty floor, rustic and lived-in, no visible readable text.
+
+SHOT ACTION: Guayaba, in a different corner of the warehouse, rallies a small group of anthropomorphic fruit and vegetable workers — simple designs, realistic adult human bodies — with warmth, but falters when one asks about the actual numbers she cannot answer.
+
+DIALOGUE (Guayaba, Spanish): &quot;Les prometo que nadie se queda sin nada. Solo déjenme pensarlo bien.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: concerned. Warm promise, small hesitation before &quot;Solo déjenme&quot;.
+
+CAMERA: Medium shot, static, slightly handheld.
+
+AUDIO: Warehouse ambience, distant forklift sounds, underscore turns uncertain.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;Les prometo que nadie se queda sin nada. Solo déjenme pensarlo bien.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S06" data-key="HFAV_E04_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S07">
+  <header class="shot-head"><span class="sid">HFAV_E04_S07</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 7 de 13 · Almacen central (prueba final)</p>
+  <img class="frame" src="img/HFAV_E04_S07.jpg" alt="Fotograma inicial HFAV_E04_S07" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S07" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+CHARACTER 2 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Old distribution warehouse: tall wooden beams and shelves stacked with wooden crates and boxes, hanging warm bulbs, a loading dock door half open with golden light, dusty floor, rustic and lived-in, no visible readable text.
+
+SHOT ACTION: Fresa and Guayaba run into each other between the shelves, both visibly stuck, the tension shifts into a reluctant alliance as they start talking over each other&#x27;s ideas.
+
+DIALOGUE (Fresa, Spanish): &quot;Mis números solos no alcanzan, y tu gente sola tampoco. ¿Lo intentamos juntas?&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: humbled. Reluctant, softer than usual, a hint of hope on the question.
+
+CAMERA: Medium two-shot, static.
+
+AUDIO: Warehouse ambience, underscore shifts to hopeful.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;Mis números solos no alcanzan, y tu gente sola tampoco. ¿Lo intentamos juntas?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S07" data-key="HFAV_E04_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S08">
+  <header class="shot-head"><span class="sid">HFAV_E04_S08</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 8 de 13 · Almacen central (prueba final)</p>
+  <img class="frame" src="img/HFAV_E04_S08.jpg" alt="Fotograma inicial HFAV_E04_S08" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S08" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+CHARACTER 1 (Guayaba): Young adult woman whose head is ONE WHOLE UNCUT round guava fruit with intact smooth green-and-pink outer peel (never sliced, never cut in half, no visible inner pink flesh or seeds), a small natural leaf near the stem, expressive sculpted feminine face formed on the outer peel with warm brown eyes and playful lips, realistic adult human body, casual sage-green blouse with rolled sleeves, blue jeans, white sneakers, and a handmade green bracelet.
+
+VOICE LOCK (Guayaba): Young adult female voice speaking neutral Latin American Spanish, approximately 25-28 years old, warm natural tone, spontaneous conversational delivery, medium-light pacing, expressive but not exaggerated, playful subtle sarcasm, emotionally open, approachable and energetic without sounding childish.
+
+LOCATION: Old distribution warehouse: tall wooden beams and shelves stacked with wooden crates and boxes, hanging warm bulbs, a loading dock door half open with golden light, dusty floor, rustic and lived-in, no visible readable text.
+
+SHOT ACTION: Guayaba stands in front of the gathered anthropomorphic fruit and vegetable workers and suppliers — simple designs, realistic adult human bodies — presenting their joint restructured plan with warmth and conviction, Fresa standing beside her holding the tablet with the numbers.
+
+DIALOGUE (Guayaba, Spanish): &quot;Nadie pierde su lugar, pero todos tenemos que ceder un poco por un tiempo.&quot;
+
+VOICE / DELIVERY: Use Guayaba&#x27;s fixed VOICE LOCK. Emotion layer: determined. Warm conviction, projecting to the group without shouting.
+
+CAMERA: Wide shot, slow push-in on the group.
+
+AUDIO: Warehouse ambience, hopeful underscore rising.
+
+DURATION: 10s</textarea>
+  <p class="line">Guayaba: &quot;Nadie pierde su lugar, pero todos tenemos que ceder un poco por un tiempo.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S08" data-key="HFAV_E04_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S09">
+  <header class="shot-head"><span class="sid">HFAV_E04_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 13 · Almacen central (prueba final)</p>
+  <img class="frame" src="img/HFAV_E04_S09.jpg" alt="Fotograma inicial HFAV_E04_S09" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S09" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+UNIVERSE RULE: Every visible person in this world must be an adult anthropomorphic fruit, vegetable or plant character with a whole realistic fruit, vegetable or plant as the head and a realistic adult human body. Never generate normal human heads, human faces, fruit helmets or fruit masks.
+
+LOCATION: Old distribution warehouse: tall wooden beams and shelves stacked with wooden crates and boxes, hanging warm bulbs, a loading dock door half open with golden light, dusty floor, rustic and lived-in, no visible readable text.
+
+SHOT ACTION: Insert of anthropomorphic fruit and vegetable workers and a supplier — simple designs, realistic adult human bodies — exchanging relieved glances and quiet nods of agreement, no dialogue.
+
+DIALOGUE (Proveedor, Spanish): &quot;Por fin alguien de esa familia nos escuchó.&quot;
+
+VOICE / DELIVERY: Extra voice (fruit supplier in the warehouse group): Adult male voice speaking neutral Latin American Spanish, approximately 55 years old, rough warm tone, medium pacing, relieved and sincere. Emotion layer: relieved. Says it to the person next to him, small grateful laugh.
+
+CAMERA: Medium close-up insert, static.
+
+AUDIO: Warehouse ambience, warm underscore holds.
+
+DURATION: 8s</textarea>
+  <p class="line">Proveedor: &quot;Por fin alguien de esa familia nos escuchó.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S09" data-key="HFAV_E04_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S10">
+  <header class="shot-head"><span class="sid">HFAV_E04_S10</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 10 de 13 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E04_S10.jpg" alt="Fotograma inicial HFAV_E04_S10" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S10" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Mora): Professional adult woman with a whole glossy blackberry cluster as her head, deep purple-black berries with realistic shine, expressive sculpted feminine face with focused dark eyes, realistic adult human body, charcoal business suit, white blouse, low black heels, and always carrying a slim black folder.
+
+CHARACTER 2 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Mora): Adult female voice speaking neutral Latin American Spanish, approximately 32-38 years old, professional restrained tone, precise diction, medium-slow pacing, low emotional variation, concise delivery, calm and efficient, slightly dry without sounding robotic.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Mora enters the office, opens BLACK_FOLDER_MORA, reports the outcome to Don Durazno with quiet satisfaction.
+
+DIALOGUE (Mora, Spanish): &quot;El almacén se salvó, señor. Y lo lograron juntas.&quot;
+
+VOICE / DELIVERY: Use Mora&#x27;s fixed VOICE LOCK. Emotion layer: discreetly satisfied. Calm report, tiny warmth on &quot;juntas&quot;.
+
+CAMERA: Medium shot, static.
+
+AUDIO: Quiet office ambience, underscore turns warm.
+
+DURATION: 10s</textarea>
+  <p class="line">Mora: &quot;El almacén se salvó, señor. Y lo lograron juntas.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S10" data-key="HFAV_E04_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S11">
+  <header class="shot-head"><span class="sid">HFAV_E04_S11</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 11 de 13 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E04_S11.jpg" alt="Fotograma inicial HFAV_E04_S11" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S11" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno stands before Fresa and Guayaba, holding DOCUMENT_FINAL, announcing the new structure with calm gravity.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Fresa será presidenta. Guayaba tendrá la última palabra sobre nuestra gente.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: quietly proud. Slow; brief pause between the two sentences.
+
+CAMERA: Medium shot, static, both daughters in frame.
+
+AUDIO: Quiet office ambience, underscore builds with emotion.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;Fresa será presidenta. Guayaba tendrá la última palabra sobre nuestra gente.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S11" data-key="HFAV_E04_S11"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S12">
+  <header class="shot-head"><span class="sid">HFAV_E04_S12</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 12 de 13 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E04_S12.jpg" alt="Fotograma inicial HFAV_E04_S12" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S12">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S12" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Fresa): Elegant adult woman with a whole glossy ripe strawberry as her head, vivid red skin with realistic tiny yellow seeds, green leafy crown, expressive sculpted feminine face with confident brown eyes and defined lips, realistic slim adult human body, tailored ivory blazer, black fitted trousers, black heels, and a thin gold wristwatch.
+
+VOICE LOCK (Fresa): Adult female voice speaking neutral Latin American Spanish, approximately 28-32 years old, polished and confident tone, clear precise articulation, controlled medium pacing, elegant delivery, emotionally disciplined, slightly condescending when threatened, faster speech under pressure while remaining articulate and composed.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Fresa turns to Guayaba, humbled, acknowledging out loud what her past decisions cost, genuine rather than performative.
+
+DIALOGUE (Fresa, Spanish): &quot;Necesito que estés ahí para que no vuelva a decidir sola.&quot;
+
+VOICE / DELIVERY: Use Fresa&#x27;s fixed VOICE LOCK. Emotion layer: humbled. Sincere, lower than usual, no performance.
+
+CAMERA: Medium close-up on Fresa, slow push-in.
+
+AUDIO: Quiet office ambience, warm underscore continues.
+
+DURATION: 10s</textarea>
+  <p class="line">Fresa: &quot;Necesito que estés ahí para que no vuelva a decidir sola.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S12_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S12" data-key="HFAV_E04_S12"> Hecha</label></div>
+</article>
+<article class="shot" id="HFAV_E04_S13">
+  <header class="shot-head"><span class="sid">HFAV_E04_S13</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 13 de 13 · Oficina de Don Durazno</p>
+  <img class="frame" src="img/HFAV_E04_S13.jpg" alt="Fotograma inicial HFAV_E04_S13" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-HFAV_E04_S13">Copiar prompt</button>
+  <textarea class="ptext" id="p-HFAV_E04_S13" readonly rows="4">STYLE: glossy Disney/Pixar-like stylized 3D animated film, warm golden saturated cinematic lighting with soft bloom, highly detailed opulent sets, characters&#x27; skin shares the color and texture of their fruit, vertical 9:16.
+
+CHARACTER 1 (Don Durazno): Distinguished older man with a whole realistic ripe peach as his head, warm orange-pink fuzzy skin, subtle natural crease, expressive sculpted mature face with deep-set dark eyes and a calm authoritative expression, realistic elderly human body, tailored cream linen suit, dark brown shirt, polished brown loafers, and a dark wooden cane with a small gold handle.
+
+VOICE LOCK (Don Durazno): Elderly male voice speaking neutral Latin American Spanish, approximately 60-65 years old, deep warm tone, calm and authoritative, slow deliberate pacing, short controlled phrases, subtle pauses between thoughts, emotionally restrained, never rushed, never theatrical, natural conversational delivery.
+
+LOCATION: Opulent executive office: cream and gold walls, a large dark polished wood desk with gold trim, a tall leather chair, a crystal chandelier, tall arched windows with a city skyline at golden hour, pink and white flower arrangements, gold-framed paintings, marble floor with a soft rug, no visible readable text.
+
+SHOT ACTION: Don Durazno moves to the window, cane in hand, looking out at the city, delivers the final reveal of the series slowly before the screen cuts to black.
+
+DIALOGUE (Don Durazno, Spanish): &quot;Nunca quise saber quién podía reemplazarme. Quería saber quién se atrevería a corregirme.&quot;
+
+VOICE / DELIVERY: Use Don Durazno&#x27;s fixed VOICE LOCK. Emotion layer: reflective. Slow, restrained breath; clear pause before &quot;Quería saber&quot;; cut to black after the line.
+
+CAMERA: Medium shot from behind, slow push-in toward the window light.
+
+AUDIO: Quiet office ambience, full emotional underscore swells and cuts to silence.
+
+DURATION: 10s</textarea>
+  <p class="line">Don Durazno: &quot;Nunca quise saber quién podía reemplazarme. Quería saber quién se atrevería a corregirme.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>HFAV_E04_S13_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-HFAV_E04_S13" data-key="HFAV_E04_S13"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='cap1'; try{ start=localStorage.getItem('tab')||'cap1' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'cap1');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>
+</body></html>

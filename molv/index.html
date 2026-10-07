@@ -1,0 +1,408 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Mansión Olvidada · Producción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style>
+</head><body>
+<div class="top">
+  <h1>La Mansión Olvidada</h1>
+  <p class="sub">Por toma: guarda la imagen, súbela en Flow como fotograma inicial, toca «Copiar prompt», pégalo y genera.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="pjs" id="tab-pjs">Personajes</button><button type="button" class="tab" data-tab="cap1" id="tab-cap1">Cap 1</button></nav>
+</div>
+<section class="panel" id="pjs"><div class="cap-head"><h2>Crear en Flow una sola vez</h2><p>Flow → Caracteres → nuevo: nombre, ficha, voz y pega la descripción.</p></div><div class="grid"><article class="shot">
+  <header class="shot-head"><span class="sid">Don Higo MOLV</span><span class="dur">Rasalgethi</span></header>
+  <p class="meta">Padre · voz alternativa: Iapetus</p>
+  <img class="ficha" src="img/ficha_don_higo.jpg" alt="Ficha de Don Higo" loading="lazy">
+  <button class="copy" type="button" data-target="d-Don Higo">Copiar descripción</button>
+  <textarea class="ptext" id="d-Don Higo" readonly rows="4">Pixar-style hyper-realistic 3D character: elegant elderly man with a whole realistic ripe purple fig as his head, glossy deep purple skin with detailed natural texture and a small stem on top, big expressive sculpted elderly face with kind sparkling dark eyes and gentle wrinkles, realistic elderly human body, crisp ivory linen guayabera with fine embroidery, tailored caramel trousers, polished cognac loafers, a cream panama hat with a dark band and a gold ring. VOICE: Elderly male voice speaking neutral Latin American Spanish, approximately 68-72 years old, warm slightly raspy tone, slow gentle pacing, short phrases with soft pauses, calm and affectionate, quietly wise, never theatrical.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Piña MOLV</span><span class="dur">Fenrir</span></header>
+  <p class="meta">Hijo mayor, el exitoso · voz alternativa: Sadachbia</p>
+  <img class="ficha" src="img/ficha_pina.jpg" alt="Ficha de Piña" loading="lazy">
+  <button class="copy" type="button" data-target="d-Piña">Copiar descripción</button>
+  <textarea class="ptext" id="d-Piña" readonly rows="4">Pixar-style hyper-realistic 3D character: charismatic adult man with a whole realistic ripe pineapple as his head, glossy golden diamond-patterned skin and a bold spiky green crown styled like a hairdo, big expressive sculpted face with confident brown eyes and a smug grin, realistic athletic adult human body, flashy royal blue velvet suit, open black silk shirt, thick gold chain, gold-framed sunglasses, luxury watch, and white designer sneakers. VOICE: Adult male voice speaking neutral Latin American Spanish, approximately 36-40 years old, bright confident tone, fast energetic pacing, mocking playful edge, loud laugh, self-assured, slightly arrogant without sounding cartoonish.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Maracuyá MOLV</span><span class="dur">Umbriel</span></header>
+  <p class="meta">Hijo menor, el humilde · voz alternativa: Zubenelgenubi</p>
+  <img class="ficha" src="img/ficha_maracuya.jpg" alt="Ficha de Maracuyá" loading="lazy">
+  <button class="copy" type="button" data-target="d-Maracuyá">Copiar descripción</button>
+  <textarea class="ptext" id="d-Maracuyá" readonly rows="4">Pixar-style hyper-realistic 3D character: likeable young adult man with a whole realistic ripe passion fruit as his head, round glossy deep purple slightly wrinkled skin with a small stem, big expressive sculpted face with warm honest brown eyes and a shy charming smile, realistic adult human body, stylish open red flannel shirt with rolled sleeves over a white t-shirt, worn slim work jeans, tan work boots, and a yellow tape measure clipped to his belt. VOICE: Young adult male voice speaking neutral Latin American Spanish, approximately 30-34 years old, warm soft tone, calm medium pacing, humble and sincere, dry self-deprecating humor, easygoing, emotionally honest without exaggeration.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Toronja MOLV</span><span class="dur">Zephyr</span></header>
+  <p class="meta">Abogada de la familia · voz alternativa: Callirrhoe</p>
+  <img class="ficha" src="img/ficha_toronja.jpg" alt="Ficha de Toronja" loading="lazy">
+  <button class="copy" type="button" data-target="d-Toronja">Copiar descripción</button>
+  <textarea class="ptext" id="d-Toronja" readonly rows="4">Pixar-style hyper-realistic 3D character: sharp professional adult woman with a whole realistic ripe pink grapefruit as her head, glossy pinkish-orange peel with natural pores, big expressive sculpted face with sharp attentive eyes behind bold dark thick-framed glasses, red lipstick, realistic adult human body, chic grey tailored skirt suit, silk white blouse, black heels, gold earrings, and a brown leather briefcase. VOICE: Adult female voice speaking neutral Latin American Spanish, approximately 42-48 years old, clear formal tone, precise diction, medium pacing, restrained and professional, discreet, never cold or robotic.</textarea>
+</article></div></section><section class="panel" id="cap1"><div class="cap-head"><h2>Capítulo 1 · Un año</h2><p>28 tomas · ~4:10 · Piloto · producir primero</p></div><div class="grid"><article class="shot" id="MOLV_E01_S01">
+  <header class="shot-head"><span class="sid">MOLV_E01_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S01.jpg" alt="Fotograma inicial MOLV_E01_S01" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S01" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: suitcase on the ground beside Don Higo; mansion LEFT, lot and hut RIGHT. ACTION: Wide establishing shot: luxurious white mansion with pool on the left, overgrown empty lot with a crooked wooden hut on the right, a low wooden fence between them. In the middle Don Higo has just set a travel suitcase on the dirt and faces Piña, Maracuyá and Toronja. DIALOGUE: Don Higo says in neutral Latin American Spanish (Elderly male voice speaking neutral Latin American Spanish,  warm slightly raspy tone,  slow gentle pacing; firm. Slow and heavy; leaves the sentence hanging.) &quot;Me voy un año. Cuando vuelva…&quot; CAMERA: Wide shot, slow push-in toward the group. AUDIO: Birds, light breeze, low dramatic note. DURATION: 8s</textarea>
+  <p class="line">Don Higo: &quot;Me voy un año. Cuando vuelva…&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S01" data-key="MOLV_E01_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S02">
+  <header class="shot-head"><span class="sid">MOLV_E01_S02</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 2 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S02.jpg" alt="Fotograma inicial MOLV_E01_S02" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S02" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: same positions, suitcase on the ground. ACTION: Don Higo looks from one son to the other; Piña smiles confidently, Maracuyá swallows nervously. DIALOGUE: Don Higo says in neutral Latin American Spanish (Elderly male voice speaking neutral Latin American Spanish,  warm slightly raspy tone,  slow gentle pacing; grave. Pause after &quot;con todo&quot;; drops his voice on &quot;sin nada&quot;.) &quot;…uno de ustedes se queda con todo… y el otro, sin nada.&quot; CAMERA: Medium shot, static, the father between both sons. AUDIO: Dramatic hit on &quot;sin nada&quot;. DURATION: 10s</textarea>
+  <p class="line">Don Higo: &quot;…uno de ustedes se queda con todo… y el otro, sin nada.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S02" data-key="MOLV_E01_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S03">
+  <header class="shot-head"><span class="sid">MOLV_E01_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S03.jpg" alt="Fotograma inicial MOLV_E01_S03" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S03" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: Piña: royal blue velvet suit, gold chain, sunglasses. ACTION: Piña adjusts his gold sunglasses with a smug grin, the white mansion behind him. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; confident. Smooth and greedy.) &quot;¿Un año? Tranquilo, papá. Yo te cuido la fortuna.&quot; CAMERA: Medium close-up, static. AUDIO: Breeze, playful sting. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;¿Un año? Tranquilo, papá. Yo te cuido la fortuna.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S03" data-key="MOLV_E01_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S04">
+  <header class="shot-head"><span class="sid">MOLV_E01_S04</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 4 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S04.jpg" alt="Fotograma inicial MOLV_E01_S04" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S04" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: mansion on the LEFT side of frame. ACTION: Don Higo points to the white mansion on the left; Piña turns to look at it, delighted. DIALOGUE: Don Higo says in neutral Latin American Spanish (Elderly male voice speaking neutral Latin American Spanish,  warm slightly raspy tone,  slow gentle pacing; calm. Unhurried, proud.) &quot;Piña, la mansión es tuya. Con todo lo que tiene adentro.&quot; CAMERA: Medium shot, the mansion visible behind them. AUDIO: Pool water, soft music. DURATION: 10s</textarea>
+  <p class="line">Don Higo: &quot;Piña, la mansión es tuya. Con todo lo que tiene adentro.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S04" data-key="MOLV_E01_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S05">
+  <header class="shot-head"><span class="sid">MOLV_E01_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S05.jpg" alt="Fotograma inicial MOLV_E01_S05" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S05" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: same positions as before. ACTION: Piña pumps his fist and laughs, then points mockingly at his brother. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; mocking. Loud, laughing on &quot;¿La maleza?&quot;.) &quot;¡Lo sabía! ¿Y al hermanito qué le toca, papá? ¿La maleza?&quot; CAMERA: Medium two-shot, static. AUDIO: Mocking sting. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;¡Lo sabía! ¿Y al hermanito qué le toca, papá? ¿La maleza?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S05" data-key="MOLV_E01_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S06">
+  <header class="shot-head"><span class="sid">MOLV_E01_S06</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 6 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S06.jpg" alt="Fotograma inicial MOLV_E01_S06" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S06" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: lot and hut on the RIGHT side of frame. ACTION: Don Higo points to the overgrown lot and the crooked hut on the right; Maracuyá follows his finger with his eyes. DIALOGUE: Don Higo says in neutral Latin American Spanish (Elderly male voice speaking neutral Latin American Spanish,  warm slightly raspy tone,  slow gentle pacing; mysterious. Slow, knowing pause before &quot;y esa casita&quot;.) &quot;Maracuyá, para ti el terreno… y esa casita.&quot; CAMERA: Medium shot, the lot and hut visible behind. AUDIO: Wind through dry weeds. DURATION: 10s</textarea>
+  <p class="line">Don Higo: &quot;Maracuyá, para ti el terreno… y esa casita.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S06" data-key="MOLV_E01_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S07">
+  <header class="shot-head"><span class="sid">MOLV_E01_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S07.jpg" alt="Fotograma inicial MOLV_E01_S07" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S07" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: Maracuyá: red flannel, tape measure. ACTION: Maracuyá stares at the crooked hut in disbelief, scratching the back of his head. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; humble. Dry self-deprecating humor, worried.) &quot;¿Esa casita? Papá, eso se cae si alguien estornuda.&quot; CAMERA: Medium close-up, static. AUDIO: Creak of old wood in the distance. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;¿Esa casita? Papá, eso se cae si alguien estornuda.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S07" data-key="MOLV_E01_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S08">
+  <header class="shot-head"><span class="sid">MOLV_E01_S08</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 8 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S08.jpg" alt="Fotograma inicial MOLV_E01_S08" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S08" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: document without readable text. ACTION: Toronja opens her leather briefcase, holds up a document without readable text and adjusts her glasses. DIALOGUE: Toronja says in neutral Latin American Spanish (Adult female voice speaking neutral Latin American Spanish,  clear formal tone,  precise diction; formal. Precise, like reading a contract.) &quot;La condición: en un año, la propiedad que valga más gana. Su dueño hereda la empresa.&quot; CAMERA: Medium close-up, static. AUDIO: Briefcase clicks. DURATION: 10s</textarea>
+  <p class="line">Toronja: &quot;La condición: en un año, la propiedad que valga más gana. Su dueño hereda la empresa.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S08" data-key="MOLV_E01_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S09">
+  <header class="shot-head"><span class="sid">MOLV_E01_S09</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 9 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S09.jpg" alt="Fotograma inicial MOLV_E01_S09" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S09" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: same positions. ACTION: Piña pats Maracuyá&#x27;s shoulder with fake pity, laughing in his face. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; mocking. Fast, cruel laugh.) &quot;¡Gané antes de empezar! Hermanito, cómprate un paraguas, que esa casita no aguanta ni un aguacero.&quot; CAMERA: Medium two-shot, static. AUDIO: Mocking sting. DURATION: 10s</textarea>
+  <p class="line">Piña: &quot;¡Gané antes de empezar! Hermanito, cómprate un paraguas, que esa casita no aguanta ni un aguacero.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S09" data-key="MOLV_E01_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S10">
+  <header class="shot-head"><span class="sid">MOLV_E01_S10</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 10 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S10.jpg" alt="Fotograma inicial MOLV_E01_S10" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S10" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: the iron key now in Maracuyá&#x27;s hand. ACTION: Don Higo closes Maracuyá&#x27;s hand over an old rusty iron key and looks him in the eye. DIALOGUE: Don Higo says in neutral Latin American Spanish (Elderly male voice speaking neutral Latin American Spanish,  warm slightly raspy tone,  slow gentle pacing; tender. Warm, almost a whisper; pause before &quot;Trabájala&quot;.) &quot;Esa casita guarda más de lo que parece. Trabájala.&quot; CAMERA: Close-up on the hands and key, then on Higo&#x27;s face. AUDIO: Soft warm note. DURATION: 10s</textarea>
+  <p class="line">Don Higo: &quot;Esa casita guarda más de lo que parece. Trabájala.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S10" data-key="MOLV_E01_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S11">
+  <header class="shot-head"><span class="sid">MOLV_E01_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S11.jpg" alt="Fotograma inicial MOLV_E01_S11" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S11" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: piano on the truck, no movers visible. ACTION: One week later. A white grand piano is already loaded on the open back of a parked moving truck in front of the mansion. Piña, with sunglasses and a juice glass, stands in front of the truck pointing proudly at the piano. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; confident. Show-off, loud.) &quot;¡Cuidado con mi piano! Ese piano me paga la fiesta del sábado.&quot; CAMERA: Medium shot, the truck and piano behind him. AUDIO: Truck engine idling, tropical music. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;¡Cuidado con mi piano! Ese piano me paga la fiesta del sábado.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S11" data-key="MOLV_E01_S11"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S12">
+  <header class="shot-head"><span class="sid">MOLV_E01_S12</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 12 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S12.jpg" alt="Fotograma inicial MOLV_E01_S12" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S12">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S12" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: new planks on the ground beside him; iron key in his pocket. ACTION: On the lot side, Maracuyá leans on the low fence with new wooden planks resting on the ground beside him, shocked. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; angry. Outraged, disbelieving.) &quot;¿Estás vendiendo el piano de papá? ¡Eso es parte de la mansión!&quot; CAMERA: Medium shot from the lot side, the truck in the background. AUDIO: Weeds rustling. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;¿Estás vendiendo el piano de papá? ¡Eso es parte de la mansión!&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S12_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S12" data-key="MOLV_E01_S12"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S13">
+  <header class="shot-head"><span class="sid">MOLV_E01_S13</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 13 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S13.jpg" alt="Fotograma inicial MOLV_E01_S13" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S13">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S13" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: juice glass in hand. ACTION: Piña sips his juice and spreads his arms like a king; behind him, a white grand piano already loaded on the open back of a parked moving truck in front of the mansion. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; confident. Lazy, smug.) &quot;La mansión es mía, y lo de adentro también. La vida es una sola, hermanito.&quot; CAMERA: Medium close-up, static. AUDIO: Ice clinking. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;La mansión es mía, y lo de adentro también. La vida es una sola, hermanito.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S13_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S13" data-key="MOLV_E01_S13"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S14">
+  <header class="shot-head"><span class="sid">MOLV_E01_S14</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 14 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S14.jpg" alt="Fotograma inicial MOLV_E01_S14" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S14">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S14" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: Toronja holds a small notebook. ACTION: Toronja, beside Piña, writes in a small notebook and looks at him over her glasses. DIALOGUE: Toronja says in neutral Latin American Spanish (Adult female voice speaking neutral Latin American Spanish,  clear formal tone,  precise diction; formal. Dry warning.) &quot;Señor Piña, cada cosa que sale por esa puerta baja el valor. Y yo lo anoto.&quot; CAMERA: Medium two-shot, static. AUDIO: Pen scratching. DURATION: 10s</textarea>
+  <p class="line">Toronja: &quot;Señor Piña, cada cosa que sale por esa puerta baja el valor. Y yo lo anoto.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S14_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S14" data-key="MOLV_E01_S14"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S15">
+  <header class="shot-head"><span class="sid">MOLV_E01_S15</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 15 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S15.jpg" alt="Fotograma inicial MOLV_E01_S15" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S15">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S15" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: mansion behind them. ACTION: Piña waves the warning off and laughs, pointing back at the mansion. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; mocking. Loud, carefree.) &quot;Usted anote, abogada, que yo disfruto. ¡Todavía me quedan cuadros, lámparas y un año entero!&quot; CAMERA: Medium two-shot, static. AUDIO: Laughter. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;Usted anote, abogada, que yo disfruto. ¡Todavía me quedan cuadros, lámparas y un año entero!&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S15_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S15" data-key="MOLV_E01_S15"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S16">
+  <header class="shot-head"><span class="sid">MOLV_E01_S16</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 16 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S16.jpg" alt="Fotograma inicial MOLV_E01_S16" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S16">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S16" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: plank in his hands. ACTION: Maracuyá picks up one of his new planks and looks at his brother firmly across the fence. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; determined. Calm, cutting.) &quot;Tú vendes por la puerta, yo arreglo tabla por tabla. En un año vemos quién se ríe.&quot; CAMERA: Close-up, slow push-in. AUDIO: Dramatic hit. DURATION: 10s</textarea>
+  <p class="line">Maracuyá: &quot;Tú vendes por la puerta, yo arreglo tabla por tabla. En un año vemos quién se ríe.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S16_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S16" data-key="MOLV_E01_S16"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S17">
+  <header class="shot-head"><span class="sid">MOLV_E01_S17</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 17 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S17.jpg" alt="Fotograma inicial MOLV_E01_S17" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S17">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S17" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: fence between the brothers. ACTION: Piña leans on the fence with a sly grin, pointing at the pocket where Maracuyá keeps the key. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; mocking. Sweet and venomous.) &quot;¿Con esas tablitas? Mira, si te cansas, te compro la llavecita oxidada.&quot; CAMERA: Medium close-up, static. AUDIO: Sly sting. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;¿Con esas tablitas? Mira, si te cansas, te compro la llavecita oxidada.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S17_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S17" data-key="MOLV_E01_S17"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S18">
+  <header class="shot-head"><span class="sid">MOLV_E01_S18</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 18 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S18.jpg" alt="Fotograma inicial MOLV_E01_S18" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S18">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S18" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: key in his pocket. ACTION: Maracuyá touches the key in his pocket and shakes his head. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; determined. Quiet, proud.) &quot;La llave no se vende. Papá me dijo que la trabajara.&quot; CAMERA: Medium close-up, static. AUDIO: Soft warm note. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;La llave no se vende. Papá me dijo que la trabajara.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S18_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S18" data-key="MOLV_E01_S18"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S19">
+  <header class="shot-head"><span class="sid">MOLV_E01_S19</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 19 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S19.jpg" alt="Fotograma inicial MOLV_E01_S19" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S19">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S19" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: notebook closed in hand. ACTION: Toronja closes her notebook and looks toward the crooked hut on the lot. DIALOGUE: Toronja says in neutral Latin American Spanish (Adult female voice speaking neutral Latin American Spanish,  clear formal tone,  precise diction; formal. Businesslike.) &quot;Hoy mismo hago el inventario de las dos propiedades. Empiezo por la casita.&quot; CAMERA: Medium shot, the hut in the background. AUDIO: Breeze. DURATION: 10s</textarea>
+  <p class="line">Toronja: &quot;Hoy mismo hago el inventario de las dos propiedades. Empiezo por la casita.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S19_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S19" data-key="MOLV_E01_S19"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S20">
+  <header class="shot-head"><span class="sid">MOLV_E01_S20</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 20 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S20.jpg" alt="Fotograma inicial MOLV_E01_S20" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S20">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S20" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: hammer on the floor, trapdoor with iron lock. ACTION: That afternoon. Inside the dusty hut, sweaty Maracuyá kneels on the floor: a rotten plank has already been pulled out, a hammer lies beside it, new planks lean on the wall, and under the floor a wooden trapdoor with an old iron lock shows. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; shocked. Calling out, breathless.) &quot;¡Toronja, venga! Debajo del piso podrido hay una trampilla.&quot; CAMERA: Medium close-up on him and the trapdoor. AUDIO: Mysterious note. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;¡Toronja, venga! Debajo del piso podrido hay una trampilla.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S20_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S20" data-key="MOLV_E01_S20"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S21">
+  <header class="shot-head"><span class="sid">MOLV_E01_S21</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 21 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S21.jpg" alt="Fotograma inicial MOLV_E01_S21" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S21">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S21" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: Toronja holds notebook. ACTION: Toronja steps into the hut doorway with her notebook; Maracuyá, still kneeling by the trapdoor, turns toward her. DIALOGUE: Toronja says in neutral Latin American Spanish (Adult female voice speaking neutral Latin American Spanish,  clear formal tone,  precise diction; discreet. Dry, half-smile.) &quot;Vine a anotar cuánto vale esta casita. Parece que acaba de subir.&quot; CAMERA: Medium shot from behind Maracuyá toward the door. AUDIO: Footsteps on wood. DURATION: 10s</textarea>
+  <p class="line">Toronja: &quot;Vine a anotar cuánto vale esta casita. Parece que acaba de subir.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S21_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S21" data-key="MOLV_E01_S21"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S22">
+  <header class="shot-head"><span class="sid">MOLV_E01_S22</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 22 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S22.jpg" alt="Fotograma inicial MOLV_E01_S22" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S22">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S22" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: kneeling by the trapdoor. ACTION: Maracuyá looks up at Toronja, confused, pointing at the trapdoor. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; curious. Confused, urgent.) &quot;¿Usted sabía de esto? ¿Qué hay ahí abajo?&quot; CAMERA: Medium close-up, static. AUDIO: Tense underscore. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;¿Usted sabía de esto? ¿Qué hay ahí abajo?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S22_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S22" data-key="MOLV_E01_S22"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S23">
+  <header class="shot-head"><span class="sid">MOLV_E01_S23</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 23 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S23.jpg" alt="Fotograma inicial MOLV_E01_S23" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S23">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S23" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: Toronja keeps glasses. ACTION: Toronja adjusts her glasses with a dry half-smile. DIALOGUE: Toronja says in neutral Latin American Spanish (Adult female voice speaking neutral Latin American Spanish,  clear formal tone,  precise diction; discreet. Dry, a little ironic.) &quot;Soy abogada, no adivina. Pero la llave que le dio su padre no es de adorno.&quot; CAMERA: Close-up on Toronja. AUDIO: Underscore holds. DURATION: 10s</textarea>
+  <p class="line">Toronja: &quot;Soy abogada, no adivina. Pero la llave que le dio su padre no es de adorno.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S23_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S23" data-key="MOLV_E01_S23"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S24">
+  <header class="shot-head"><span class="sid">MOLV_E01_S24</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 24 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S24.jpg" alt="Fotograma inicial MOLV_E01_S24" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S24">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S24" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: key in his hand. ACTION: Maracuyá takes the iron key out of his pocket and looks at it, torn. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; concerned. Doubtful, loyal.) &quot;¿Y si es algo grande? ¿Le aviso a mi hermano?&quot; CAMERA: Medium close-up, static. AUDIO: Soft sad note. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;¿Y si es algo grande? ¿Le aviso a mi hermano?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S24_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S24" data-key="MOLV_E01_S24"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S25">
+  <header class="shot-head"><span class="sid">MOLV_E01_S25</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 25 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S25.jpg" alt="Fotograma inicial MOLV_E01_S25" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S25">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S25" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: notebook in hand. ACTION: Toronja lowers her voice and leans slightly forward. DIALOGUE: Toronja says in neutral Latin American Spanish (Adult female voice speaking neutral Latin American Spanish,  clear formal tone,  precise diction; concerned. Low and grave.) &quot;Su hermano está vendiendo pianos. Usted decida qué hace con lo suyo.&quot; CAMERA: Close-up, slow push-in. AUDIO: Dramatic hit. DURATION: 10s</textarea>
+  <p class="line">Toronja: &quot;Su hermano está vendiendo pianos. Usted decida qué hace con lo suyo.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S25_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S25" data-key="MOLV_E01_S25"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S26">
+  <header class="shot-head"><span class="sid">MOLV_E01_S26</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 26 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S26.jpg" alt="Fotograma inicial MOLV_E01_S26" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S26">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S26" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: trapdoor still closed, golden glow through cracks, no gold visible. ACTION: Close insert: the iron key already in the trapdoor lock, Maracuyá&#x27;s hand gives it a quarter turn; a warm golden glow rises through the cracks of the closed trapdoor and lights his face. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; shocked. Gasp, whisper.) &quot;¡Se abrió!&quot; CAMERA: Close-up on the key, then on his lit face. AUDIO: Lock click, magical shimmer. DURATION: 8s</textarea>
+  <p class="line">Maracuyá: &quot;¡Se abrió!&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S26_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S26" data-key="MOLV_E01_S26"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S27">
+  <header class="shot-head"><span class="sid">MOLV_E01_S27</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 27 de 28 · Mansión y terreno (exterior)</p>
+  <img class="frame" src="img/MOLV_E01_S27.jpg" alt="Fotograma inicial MOLV_E01_S27" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S27">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S27" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: golden glow on his face; nobody visible inside. ACTION: Outside the crooked hut, Piña peeks through its small window, his face lit by a golden reflection, with a twisted smile. DIALOGUE: Piña says in neutral Latin American Spanish (Adult male voice speaking neutral Latin American Spanish,  bright confident tone,  fast energetic pacing; mocking. Whispered, greedy, dangerous.) &quot;¿Un tesoro, hermanito? Qué lindo… Ahora sí me interesa tu casita.&quot; CAMERA: Close-up from outside, the window frame around his face. AUDIO: Wind, ominous low note. DURATION: 8s</textarea>
+  <p class="line">Piña: &quot;¿Un tesoro, hermanito? Qué lindo… Ahora sí me interesa tu casita.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S27_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S27" data-key="MOLV_E01_S27"> Hecha</label></div>
+</article>
+<article class="shot" id="MOLV_E01_S28">
+  <header class="shot-head"><span class="sid">MOLV_E01_S28</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 28 de 28 · Interior de la casita</p>
+  <img class="frame" src="img/MOLV_E01_S28.jpg" alt="Fotograma inicial MOLV_E01_S28" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-MOLV_E01_S28">Copiar prompt</button>
+  <textarea class="ptext" id="p-MOLV_E01_S28" readonly rows="4">Animate the provided starting frame. Keep the exact soft 3D animated film look of the starting frame, bright soft natural daylight, gentle warm colors, rich fine detail, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and fruit heads exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. Every head stays a whole fruit, never sliced. No subtitles or on-screen text. KEEP: key in the lock, golden glow; CIERRE: rompe la cuarta pared. ACTION: Breaking the fourth wall: Maracuyá, kneeling by the glowing trapdoor with the key still in the lock, turns to the camera, his face lit gold. DIALOGUE: Maracuyá says in neutral Latin American Spanish (Young adult male voice speaking neutral Latin American Spanish,  warm soft tone,  calm medium pacing; curious. Fourth-wall aside with his same voice, never an announcer; real question; warm invitation on &quot;síguenos para más capítulos&quot;.) &quot;Si fuera tuyo, ¿lo gastas como mi hermano o lo inviertes? Comenta y síguenos para más capítulos.&quot; CAMERA: Medium close-up, static, subtle push-in; holds eye contact. AUDIO: Soft shimmer, suspended note, cut to black. DURATION: 10s</textarea>
+  <p class="line">Maracuyá (a cámara): &quot;Si fuera tuyo, ¿lo gastas como mi hermano o lo inviertes? Comenta y síguenos para más capítulos.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MOLV_E01_S28_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MOLV_E01_S28" data-key="MOLV_E01_S28"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='cap1'; try{ start=localStorage.getItem('tab')||'cap1' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'cap1');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>
+</body></html>

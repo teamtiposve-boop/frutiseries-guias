@@ -1,0 +1,196 @@
+<title>90 Segundos · El Puente · Producción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style>
+<div class="top">
+  <h1>90 Segundos · El Puente</h1>
+  <p class="sub">Por toma: guarda la imagen, súbela en Flow como fotograma inicial, toca «Copiar prompt», pégalo y genera.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="pjs" id="tab-pjs">Personajes</button><button type="button" class="tab" data-tab="cap1" id="tab-cap1">Cap 1</button></nav>
+</div>
+<section class="panel" id="pjs"><div class="cap-head"><h2>Crear en Flow una sola vez</h2><p>Flow → Caracteres → nuevo: nombre, ficha, voz y pega la descripción.</p></div><div class="grid"><article class="shot">
+  <header class="shot-head"><span class="sid">Marcos SVP</span><span class="dur">Orus</span></header>
+  <p class="meta">El que no deja a nadie atrás (lo interpreta el jefe) · voz alternativa: Alnilam</p>
+  <img class="ficha" src="img/ficha_marcos.jpg" alt="Ficha de Marcos" loading="lazy">
+  <button class="copy" type="button" data-target="d-Marcos">Copiar descripción</button>
+  <textarea class="ptext" id="d-Marcos" readonly rows="4">the SAME real Latino man from the attached reference photos (exact same face, identity, skin tone, short dark textured hair with faded sides, light stubble beard and moustache, small marks on the cheeks), about 32 years old, athletic build, wearing a black waterproof hooded jacket with a black tactical chest harness, black cargo trousers and dark boots VOICE: Adult male voice speaking neutral Latin American Spanish, about 32 years old, firm grounded mid-low tone, medium pacing, short decisive phrases, protective and determined, never theatrical.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Lucía SVP</span><span class="dur">Aoede</span></header>
+  <p class="meta">Enfermera, la conciencia del grupo · voz alternativa: Sulafat</p>
+  <img class="ficha" src="img/ficha_lucia.jpg" alt="Ficha de Lucía" loading="lazy">
+  <button class="copy" type="button" data-target="d-Lucía">Copiar descripción</button>
+  <textarea class="ptext" id="d-Lucía" readonly rows="4">a real Latina woman, 25 years old, warm light-brown skin, dark brown hair in a messy low ponytail with loose strands, big expressive dark eyes, a few freckles, wearing teal nurse scrubs with a grey zip cardigan over them, a small silver nurse fob watch pinned to the chest, white sneakers with dirt marks VOICE: Young adult female voice speaking neutral Latin American Spanish, about 25 years old, clear bright tone, slightly fast nervous pacing, honest and caring, firm when she confronts someone.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Andrés SVP</span><span class="dur">Puck</span></header>
+  <p class="meta">El más joven, el que nadie quiere cargar · voz alternativa: Fenrir</p>
+  <img class="ficha" src="img/ficha_andres.jpg" alt="Ficha de Andrés" loading="lazy">
+  <button class="copy" type="button" data-target="d-Andrés">Copiar descripción</button>
+  <textarea class="ptext" id="d-Andrés" readonly rows="4">a real skinny Latino young man, 19 years old, tan skin, curly black hair, thin face with a thin teenage moustache, scared dark eyes, wearing a heather grey hoodie torn at one shoulder, faded blue jeans and worn white sneakers VOICE: Young male voice speaking neutral Latin American Spanish, about 19 years old, light slightly cracking tone, hesitant pacing with broken pauses, scared and vulnerable.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Valeria SVP</span><span class="dur">Kore</span></header>
+  <p class="meta">Ejecutiva fría, juega para ganar · voz alternativa: Sulafat</p>
+  <img class="ficha" src="img/ficha_valeria.jpg" alt="Ficha de Valeria" loading="lazy">
+  <button class="copy" type="button" data-target="d-Valeria">Copiar descripción</button>
+  <textarea class="ptext" id="d-Valeria" readonly rows="4">a real elegant Latina woman, 33 years old, fair olive skin, sleek straight black hair in a low bun with a few strands loose, sharp cold hazel eyes, defined cheekbones, wearing a white silk blouse under a tailored charcoal grey blazer with a mud stain on one sleeve, black tailored trousers and black ankle boots VOICE: Adult female voice speaking neutral Latin American Spanish, about 33 years old, low smooth controlled tone, slow deliberate pacing, cold and calculating, never raises her voice.</textarea>
+</article></div></section><section class="panel" id="cap1"><div class="cap-head"><h2>Capítulo 1 · Tráiler · El Puente</h2><p>9 tomas · ~1:14 · Piloto · producir primero</p></div><div class="grid"><article class="shot" id="SVP_E01_S01">
+  <header class="shot-head"><span class="sid">SVP_E01_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S01.jpg" alt="Fotograma inicial SVP_E01_S01" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S01" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: clock shows 90; bridge on the right edge of the platform; nobody on the bridge. ACTION: Wide establishing shot: the four strangers stand apart on the stone platform, disoriented, looking up at the giant carved clock showing 90; the broken plank bridge disappears into the fog beside them. DIALOGUE: An off-screen narrator says in neutral Latin American Spanish (natural adult voice; deep cold male narrator voice, ominous. Slow, a pause after each sentence.) &quot;Cuatro jugadores. Un puente. Solo dos llegan al otro lado.&quot; CAMERA: Wide shot, slow crane down from the clock to the group. AUDIO: Wind in the chasm, distant creaking ropes, deep low drone. DURATION: 8s</textarea>
+  <p class="line">Voz en off: &quot;Cuatro jugadores. Un puente. Solo dos llegan al otro lado.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S01" data-key="SVP_E01_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S02">
+  <header class="shot-head"><span class="sid">SVP_E01_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S02.jpg" alt="Fotograma inicial SVP_E01_S02" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S02" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: clock shows 90 behind; bridge start behind Marcos. ACTION: Marcos takes a step toward the bridge, looks at the ropes and turns back to the others with a defiant frown. DIALOGUE: Marcos says in neutral Latin American Spanish (Adult male voice, about 32, firm mid-low tone, decisive; incredulous. Short pause after &quot;¿Solo dos?&quot;, firm on &quot;aguanta&quot;.) &quot;¿Solo dos? Eso es mentira. Ese puente aguanta.&quot; CAMERA: Medium close-up, handheld, slight push-in. AUDIO: Wind, ropes creaking. DURATION: 8s</textarea>
+  <p class="line">Marcos: &quot;¿Solo dos? Eso es mentira. Ese puente aguanta.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S02" data-key="SVP_E01_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S03">
+  <header class="shot-head"><span class="sid">SVP_E01_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S03.jpg" alt="Fotograma inicial SVP_E01_S03" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S03" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: same bridge with missing planks; Lucía left, Marcos right. ACTION: Lucía, near the bridge edge, points down at the gaps between the planks while Marcos looks over her shoulder; she turns to him, scared. DIALOGUE: Lucía says in neutral Latin American Spanish (Young female voice, about 25, clear bright tone, nervous but brave; nervous. Fast, a short breath before &quot;Falta la mitad&quot;.) &quot;Mira las tablas, Marcos. Falta la mitad.&quot; CAMERA: Over-the-shoulder two-shot from behind Marcos. AUDIO: A loose plank knocks against the ropes. DURATION: 8s</textarea>
+  <p class="line">Lucía: &quot;Mira las tablas, Marcos. Falta la mitad.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S03" data-key="SVP_E01_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S04">
+  <header class="shot-head"><span class="sid">SVP_E01_S04</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 4 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S04.jpg" alt="Fotograma inicial SVP_E01_S04" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S04" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: hoodie torn at the shoulder; edge of the chasm in front of him. ACTION: Andrés backs away from the edge, hands trembling, looking down into the fog. DIALOGUE: Andrés says in neutral Latin American Spanish (Young male voice, about 19, light cracking tone, scared; terrified. Voice cracks, long pause before the second &quot;no puedo&quot;.) &quot;Yo no puedo cruzar eso… no puedo.&quot; CAMERA: Close-up, slow dolly back with him. AUDIO: Heavy breathing, wind. DURATION: 8s</textarea>
+  <p class="line">Andrés: &quot;Yo no puedo cruzar eso… no puedo.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S04" data-key="SVP_E01_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S05">
+  <header class="shot-head"><span class="sid">SVP_E01_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S05.jpg" alt="Fotograma inicial SVP_E01_S05" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S05" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: arms crossed; mud stain on blazer sleeve. ACTION: Valeria, arms crossed, looks at Andrés without blinking and tilts her head slightly. DIALOGUE: Valeria says in neutral Latin American Spanish (Adult female voice, about 33, low smooth controlled tone, cold; cold. Slow, a pause after &quot;quédate&quot;.) &quot;Entonces quédate. Así sobra un lugar.&quot; CAMERA: Medium close-up, static, low angle. AUDIO: Wind stops for a beat; low drone. DURATION: 8s</textarea>
+  <p class="line">Valeria: &quot;Entonces quédate. Así sobra un lugar.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S05" data-key="SVP_E01_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S06">
+  <header class="shot-head"><span class="sid">SVP_E01_S06</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 6 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S06.jpg" alt="Fotograma inicial SVP_E01_S06" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S06" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: Lucía left, Valeria right; clock visible behind them. ACTION: Lucía steps right up to Valeria and confronts her face to face; Valeria does not move. DIALOGUE: Lucía says in neutral Latin American Spanish (Young female voice, about 25, clear bright tone, nervous but brave; outraged. Rising anger, stress on &quot;un niño&quot;.) &quot;¿Así vas a ganar? ¿Dejando a un niño atrás?&quot; CAMERA: Tight two-shot in profile, handheld. AUDIO: Tense string hit. DURATION: 8s</textarea>
+  <p class="line">Lucía: &quot;¿Así vas a ganar? ¿Dejando a un niño atrás?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S06" data-key="SVP_E01_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S07">
+  <header class="shot-head"><span class="sid">SVP_E01_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S07.jpg" alt="Fotograma inicial SVP_E01_S07" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S07" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: same positions as previous shot; small cold smile. ACTION: Valeria leans in a few centimeters toward Lucía and answers with a small cold smile. DIALOGUE: Valeria says in neutral Latin American Spanish (Adult female voice, about 33, low smooth controlled tone, cold; disdainful. Almost a whisper, slow.) &quot;Así se sale vivo de aquí.&quot; CAMERA: Close-up on Valeria over Lucía&#x27;s shoulder. AUDIO: Clock ticking starts, loud and dry. DURATION: 8s</textarea>
+  <p class="line">Valeria: &quot;Así se sale vivo de aquí.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S07" data-key="SVP_E01_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S08">
+  <header class="shot-head"><span class="sid">SVP_E01_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 9 · Sobre el puente de tablas</p>
+  <img class="frame" src="img/SVP_E01_S08.jpg" alt="Fotograma inicial SVP_E01_S08" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S08" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: Marcos on the bridge, Andrés at the entrance; only the plank drops. ACTION: Marcos is already a few planks out on the swaying bridge, gripping the rope with one hand and reaching back with the other toward Andrés at the bridge entrance; a loose plank between them snaps free and drops into the fog. DIALOGUE: Marcos says in neutral Latin American Spanish (Adult male voice, about 32, firm mid-low tone, decisive; urgent. Shouted over the wind, sharp on &quot;¡Ahora!&quot;.) &quot;¡Andrés, dame la mano! ¡Ahora!&quot; CAMERA: Low angle from the bridge, handheld, quick tilt down following the falling plank. AUDIO: Wood cracking, the plank whistling down, clock ticking faster. DURATION: 8s</textarea>
+  <p class="line">Marcos: &quot;¡Andrés, dame la mano! ¡Ahora!&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S08" data-key="SVP_E01_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="SVP_E01_S09">
+  <header class="shot-head"><span class="sid">SVP_E01_S09</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 9 de 9 · Plataforma de piedra al borde del abismo</p>
+  <img class="frame" src="img/SVP_E01_S09.jpg" alt="Fotograma inicial SVP_E01_S09" loading="lazy" width="560" height="996">
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial.</p>
+  <button class="copy" type="button" data-target="p-SVP_E01_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-SVP_E01_S09" readonly rows="4">Animate the provided starting frame. Hyper-realistic cinematic live-action survival thriller, cold misty dawn light, desaturated teal and amber grade, real skin texture, subtle handheld camera, film grain, vertical 9:16. CONTINUITY: keep the set, furniture, props, clothing, faces and real human identities exactly as in the starting frame for the whole shot. Nothing appears, disappears or changes; no new characters; objects obey physics and stay where they are unless a hand moves them. No subtitles or on-screen text. KEEP: same clothes, mud stain on sleeve; bridge swaying behind. ACTION: Valeria stands at the bridge entrance with the bridge swaying behind her, turns and looks straight into the camera, raising one eyebrow. DIALOGUE: Valeria says in neutral Latin American Spanish (Adult female voice, about 33, low smooth controlled tone, cold; provocative. Slow, a long pause after &quot;¿o no?&quot;, cool and confident on the rest.) &quot;Tú también me dejarías atrás… ¿o no? Comenta quién cruza. Síguenos para el capítulo uno.&quot; CAMERA: Medium close-up, slow push-in to her eyes. AUDIO: Ticking stops; wind. DURATION: 10s</textarea>
+  <p class="line">Valeria: &quot;Tú también me dejarías atrás… ¿o no? Comenta quién cruza. Síguenos para el capítulo uno.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>SVP_E01_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-SVP_E01_S09" data-key="SVP_E01_S09"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='cap1'; try{ start=localStorage.getItem('tab')||'cap1' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'cap1');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>

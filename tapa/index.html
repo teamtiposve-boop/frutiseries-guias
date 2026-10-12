@@ -1,0 +1,277 @@
+<title>Tapada · Producción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style>
+<div class="top">
+  <h1>Tapada</h1>
+  <p class="sub">Por toma: guarda la imagen, súbela en Flow como fotograma inicial, toca «Copiar prompt», pégalo y genera.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="pjs" id="tab-pjs">Personajes</button><button type="button" class="tab" data-tab="cap1" id="tab-cap1">Cap 1</button></nav>
+</div>
+<section class="panel" id="pjs"><div class="cap-head"><h2>Crear en Flow una sola vez</h2><p>Flow → Caracteres → nuevo: nombre, ficha, voz y pega la descripción.</p></div><div class="grid"><article class="shot">
+  <header class="shot-head"><span class="sid">Cerecita</span><span class="dur">Despina</span></header>
+  <p class="meta">protagonista, víctima noble · voz alternativa: Achernar</p>
+  <img class="ficha" src="img/ficha_cerecita.jpg" alt="Ficha de Cerecita" loading="lazy">
+  <button class="copy" type="button" data-target="d-Cerecita">Copiar descripción</button>
+  <textarea class="ptext" id="d-Cerecita" readonly rows="4">petite tiny young adult woman (18 today), whole glossy bright red CHERRY head with a short green stem and one leaf on top, huge teary sparkling eyes, long lashes, rosy cheeks; a smooth opaque blank silver seal sticker covers her whole forehead screen, no markings, no digits visible; soft pink knit sweater and white skirt VOICE: Young adult female voice, sweet and fragile, soft trembling delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Piña</span><span class="dur">Vindemiatrix</span></header>
+  <p class="meta">hermana mayor, villana · voz alternativa: Achernar</p>
+  <img class="ficha" src="img/ficha_pina.jpg" alt="Ficha de Piña" loading="lazy">
+  <button class="copy" type="button" data-target="d-Piña">Copiar descripción</button>
+  <textarea class="ptext" id="d-Piña" readonly rows="4">very TALL and super SKINNY glamorous young woman, whole glossy golden PINEAPPLE head with a tall spiky green crown like a high hairdo, long lashes, smug smirk, huge gold hoop earrings, tight gold sequin dress, gold heels; forehead display reads exactly 95 AÑOS VOICE: Young adult female voice, bright and cocky, mocking sing-song delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Abuela</span><span class="dur">Gacrux</span></header>
+  <p class="meta">abuela protectora · voz alternativa: Sulafat</p>
+  <img class="ficha" src="img/ficha_abuela.jpg" alt="Ficha de Abuela" loading="lazy">
+  <button class="copy" type="button" data-target="d-Abuela">Copiar descripción</button>
+  <textarea class="ptext" id="d-Abuela" readonly rows="4">EXTREMELY FAT enormous grandmother, body twice as wide as a normal person, huge round belly and wide hips, whole glossy purple EGGPLANT head with green calyx like a little hat, round glasses, rosy cheeks, big pearl necklace, lilac shawl over a flowery lilac dress; forehead display reads exactly 12 AÑOS VOICE: Elderly female voice, warm and protective, firm loving delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Don Ajo</span><span class="dur">Algenib</span></header>
+  <p class="meta">comprador de años, villano · voz alternativa: Enceladus</p>
+  <img class="ficha" src="img/ficha_ajo.jpg" alt="Ficha de Don Ajo" loading="lazy">
+  <button class="copy" type="button" data-target="d-Don Ajo">Copiar descripción</button>
+  <textarea class="ptext" id="d-Don Ajo" readonly rows="4">short chubby big-bellied rich old man, whole glossy white GARLIC bulb head with soft purple streaks and a pointed tip, thin curled mustache, one shiny gold tooth in a greedy grin, white suit with gold buttons, gold rings on his fingers; forehead display reads exactly 312 AÑOS VOICE: Older male voice, deep and oily, slow greedy delivery, neutral Latin American Spanish</textarea>
+</article></div></section><section class="panel" id="cap1"><div class="cap-head"><h2>Capítulo 1 · La curita plateada</h2><p>15 tomas · ~2:00 · Piloto · producir primero</p></div><div class="grid"><article class="shot" id="TAPA_E01_S01">
+  <header class="shot-head"><span class="sid">TAPA_E01_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 15 · Cuarto de Cerecita</p>
+  <img class="frame" src="img/TAPA_E01_S01.jpg" alt="Fotograma inicial TAPA_E01_S01" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S01" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: silver seal sticker on her forehead; Piña behind her. IDENTITY LOCK (never a human face, even in close-ups): CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits); PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS. ACTION: Tiny cherry girl gently touches the silver seal sticker on her forehead in front of the mirror and turns her worried face slightly; behind her the tall pineapple sister smirks. DIALOGUE: Cerecita says in neutral Latin American Spanish (young adult female voice, sweet and fragile, soft trembling delivery; concerned. Fragile, almost a whisper, fear in the voice. VOCAL: low, grave and urgent, worried tremble, slow pause in the middle; telenovela acting, never flat or robotic) &quot;Hoy cumplo 18… ¿y si debajo hay un cero?&quot; CAMERA: Close-up, slow push-in. AUDIO: Soft morning room tone, a tense music sting.</textarea>
+  <p class="line">Cerecita: &quot;Hoy cumplo 18… ¿y si debajo hay un cero?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S01" data-key="TAPA_E01_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S02">
+  <header class="shot-head"><span class="sid">TAPA_E01_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 15 · Cuarto de Cerecita</p>
+  <img class="frame" src="img/TAPA_E01_S02.jpg" alt="Fotograma inicial TAPA_E01_S02" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S02" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Piña&#x27;s display reads 95 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS; CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: The tall pineapple sister admires her own glowing 95 AÑOS display, then leans toward the cherry girl with a cruel grin. DIALOGUE: Piña says in neutral Latin American Spanish (young adult female voice, bright and cocky, mocking sing-song delivery; mocking. Cruel, enjoying it. VOCAL: high sing-song mocking pitch, loud and cocky, a cruel laugh breaking through the words, stretching the insults; telenovela acting, never flat or robotic) &quot;Seguro que sí. Por algo la abuela te tapó.&quot; CAMERA: Medium two-shot, static. AUDIO: Mocking little laugh, light comedic sting.</textarea>
+  <p class="line">Piña: &quot;Seguro que sí. Por algo la abuela te tapó.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S02" data-key="TAPA_E01_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S03">
+  <header class="shot-head"><span class="sid">TAPA_E01_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 15 · Cuarto de Cerecita</p>
+  <img class="frame" src="img/TAPA_E01_S03.jpg" alt="Fotograma inicial TAPA_E01_S03" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S03" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Abuela&#x27;s display reads 12 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): ABUELA: her head is ONE WHOLE glossy purple eggplant with green calyx, face ON the eggplant skin, very fat round body, round glasses, pearl necklace, lilac shawl, forehead display reads 12 AÑOS. ACTION: The very fat eggplant grandmother appears at the bedroom door, takes one step in, touches her pearl necklace and speaks firmly. DIALOGUE: Abuela says in neutral Latin American Spanish (elderly female voice, warm and protective, firm loving delivery; firm. Grave and loving, a secret behind the words. VOCAL: deep, grave and commanding, slow with heavy dramatic pauses; telenovela acting, never flat or robotic) &quot;Te tapé para salvarte, no por vergüenza. Yo vi tu número.&quot; CAMERA: Medium shot, static. AUDIO: Music drops to a low mysterious pad.</textarea>
+  <p class="line">Abuela: &quot;Te tapé para salvarte, no por vergüenza. Yo vi tu número.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S03" data-key="TAPA_E01_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S04">
+  <header class="shot-head"><span class="sid">TAPA_E01_S04</span><span class="dur">6s</span></header>
+  <p class="meta">Toma 4 de 15 · Cuarto de Cerecita</p>
+  <img class="frame" src="img/TAPA_E01_S04.jpg" alt="Fotograma inicial TAPA_E01_S04" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>6s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S04" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: silver seal sticker on her forehead. IDENTITY LOCK (never a human face, even in close-ups): CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: The tiny cherry girl turns around, her huge eyes fill with tears, and she asks with a trembling voice. DIALOGUE: Cerecita says in neutral Latin American Spanish (young adult female voice, sweet and fragile, soft trembling delivery; humble. Hopeful and scared. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;¿Y cuánto tengo, abuela?&quot; CAMERA: Close-up, static. AUDIO: Soft piano note.</textarea>
+  <p class="line">Cerecita: &quot;¿Y cuánto tengo, abuela?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S04" data-key="TAPA_E01_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S05">
+  <header class="shot-head"><span class="sid">TAPA_E01_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 15 · Cuarto de Cerecita</p>
+  <img class="frame" src="img/TAPA_E01_S05.jpg" alt="Fotograma inicial TAPA_E01_S05" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S05" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Abuela hugs Cerecita; silver seal sticker on Cerecita&#x27;s forehead. IDENTITY LOCK (never a human face, even in close-ups): ABUELA: her head is ONE WHOLE glossy purple eggplant with green calyx, face ON the eggplant skin, very fat round body, round glasses, pearl necklace, lilac shawl, forehead display reads 12 AÑOS; CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: The very fat grandmother hugs the tiny cherry girl tightly against her chest while glaring angrily toward the hallway. DIALOGUE: Abuela says in neutral Latin American Spanish (elderly female voice, warm and protective, firm loving delivery; tender. Warm, protective, a promise. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;Naciste de noche, mi cielo. Esta noche lo verás.&quot; CAMERA: Medium two-shot, static. AUDIO: Tender strings.</textarea>
+  <p class="line">Abuela: &quot;Naciste de noche, mi cielo. Esta noche lo verás.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S05" data-key="TAPA_E01_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S06">
+  <header class="shot-head"><span class="sid">TAPA_E01_S06</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 6 de 15 · Cuarto de Cerecita</p>
+  <img class="frame" src="img/TAPA_E01_S06.jpg" alt="Fotograma inicial TAPA_E01_S06" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S06" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: phone at her ear, screen facing her; display reads 95 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS. ACTION: In the hallway the tall pineapple sister holds a phone to her ear, whispers and smiles wickedly. DIALOGUE: Piña says in neutral Latin American Spanish (young adult female voice, bright and cocky, mocking sing-song delivery; discreet. Whispering, scheming, delighted. VOCAL: dry, low and ironic, a knowing half-smile in the voice; telenovela acting, never flat or robotic) &quot;Don Ajo, esta noche se la quita. Venga por sus años.&quot; CAMERA: Medium shot, static. AUDIO: Villain sting, low bass.</textarea>
+  <p class="line">Piña: &quot;Don Ajo, esta noche se la quita. Venga por sus años.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S06" data-key="TAPA_E01_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S07">
+  <header class="shot-head"><span class="sid">TAPA_E01_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S07.jpg" alt="Fotograma inicial TAPA_E01_S07" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S07" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: microphone in Piña&#x27;s hand; silver seal sticker on Cerecita; display reads 95 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS; CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: At night in the festive backyard, the tall pineapple sister raises a microphone and points at the cherry girl&#x27;s covered forehead; off-screen neighbors laugh. DIALOGUE: Piña says in neutral Latin American Spanish (young adult female voice, bright and cocky, mocking sing-song delivery; mocking. Loud showy announcer voice. VOCAL: high sing-song mocking pitch, loud and cocky, a cruel laugh breaking through the words, stretching the insults; telenovela acting, never flat or robotic) &quot;¡Vecinos! Hoy mi hermana se quita la curita. Yo apuesto: cero.&quot; CAMERA: Medium two-shot, slow push-in. AUDIO: Crowd laughter off-screen, party music.</textarea>
+  <p class="line">Piña: &quot;¡Vecinos! Hoy mi hermana se quita la curita. Yo apuesto: cero.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S07" data-key="TAPA_E01_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S08">
+  <header class="shot-head"><span class="sid">TAPA_E01_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S08.jpg" alt="Fotograma inicial TAPA_E01_S08" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S08" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: microphone lowered in Piña&#x27;s hand; silver seal sticker on Cerecita. IDENTITY LOCK (never a human face, even in close-ups): CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits); PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS. ACTION: The tiny cherry girl hugs herself, humiliated, and speaks softly; the tall pineapple leans over her and answers with a cruel smile. DIALOGUE: Cerecita says in neutral Latin American Spanish (young adult female voice, sweet and fragile, soft trembling delivery; humble. Hurt, small voice. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;Piña, es mi cumpleaños.&quot; Then Piña answers in neutral Latin American Spanish (young adult female voice, bright and cocky, mocking sing-song delivery; mocking. Cruel, enjoying it. VOCAL: high sing-song mocking pitch, loud and cocky, a cruel laugh breaking through the words, stretching the insults; telenovela acting) &quot;Por eso. Hoy la vergüenza es tuya.&quot; CAMERA: Medium two-shot, static. AUDIO: Laughter fades, single sad note.</textarea>
+  <p class="line">Cerecita: &quot;Piña, es mi cumpleaños.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S08" data-key="TAPA_E01_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S09">
+  <header class="shot-head"><span class="sid">TAPA_E01_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S09.jpg" alt="Fotograma inicial TAPA_E01_S09" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S09" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 312 AÑOS; gate open behind him. IDENTITY LOCK (never a human face, even in close-ups): DON AJO: his head is ONE WHOLE white garlic bulb with purple streaks, face ON the garlic skin, short chubby body, white suit, gold tooth, forehead display reads 312 AÑOS. ACTION: The chubby garlic man, already standing by the open iron gate, takes two steps forward rubbing his ringed hands, gold tooth shining. DIALOGUE: Don Ajo says in neutral Latin American Spanish (older male voice, deep and oily, slow greedy delivery; confident. Oily, slow, greedy. VOCAL: loud, smug and showy, rising pitch at the end, savoring every word; telenovela acting, never flat or robotic) &quot;Y si tiene muchos años, yo se los compro.&quot; CAMERA: Medium shot, static. AUDIO: Gate creak at the start, villain bass sting.</textarea>
+  <p class="line">Don Ajo: &quot;Y si tiene muchos años, yo se los compro.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S09" data-key="TAPA_E01_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S10">
+  <header class="shot-head"><span class="sid">TAPA_E01_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S10.jpg" alt="Fotograma inicial TAPA_E01_S10" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S10" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: arms spread; display reads 12 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): ABUELA: her head is ONE WHOLE glossy purple eggplant with green calyx, face ON the eggplant skin, very fat round body, round glasses, pearl necklace, lilac shawl, forehead display reads 12 AÑOS; CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: The very fat grandmother steps in front of the tiny cherry girl, spreads her arms wide to shield her and shouts. DIALOGUE: Abuela says in neutral Latin American Spanish (elderly female voice, warm and protective, firm loving delivery; angry. Shouting, protective fury. VOCAL: raised voice almost shouting, sharp and fast, trembling with outrage, hits each word hard; telenovela acting, never flat or robotic) &quot;¡Ajo, fuera! Hace dieciocho años te dije que no.&quot; CAMERA: Medium shot, static. AUDIO: Dramatic hit.</textarea>
+  <p class="line">Abuela: &quot;¡Ajo, fuera! Hace dieciocho años te dije que no.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S10" data-key="TAPA_E01_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S11">
+  <header class="shot-head"><span class="sid">TAPA_E01_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S11.jpg" alt="Fotograma inicial TAPA_E01_S11" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S11" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: arm in arm; displays read 95 AÑOS and 312 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS; DON AJO: his head is ONE WHOLE white garlic bulb with purple streaks, face ON the garlic skin, short chubby body, white suit, gold tooth, forehead display reads 312 AÑOS. ACTION: The tall pineapple sister walks to the garlic man, hooks her arm in his and smiles proudly. DIALOGUE: Piña says in neutral Latin American Spanish (young adult female voice, bright and cocky, mocking sing-song delivery; confident. Proud, cynical, savoring it. VOCAL: loud, smug and showy, rising pitch at the end, savoring every word; telenovela acting, never flat or robotic) &quot;Yo lo invité. Si tiene cero, me río. Si no, cobro.&quot; CAMERA: Medium two-shot, static. AUDIO: Shocked gasps off-screen.</textarea>
+  <p class="line">Piña: &quot;Yo lo invité. Si tiene cero, me río. Si no, cobro.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S11" data-key="TAPA_E01_S11"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S12">
+  <header class="shot-head"><span class="sid">TAPA_E01_S12</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 12 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S12.jpg" alt="Fotograma inicial TAPA_E01_S12" loading="lazy" width="560" height="996">
+  <p class="hint"><b>OJO:</b> Esta toma arranca donde termina la 10: en Flow abre el clip TAPA_E01_S10, ve al último cuadro y usa «Guardar fotograma» como fotograma inicial. La imagen de aquí es solo de referencia.</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S12">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S12" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 12 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): ABUELA: her head is ONE WHOLE glossy purple eggplant with green calyx, face ON the eggplant skin, very fat round body, round glasses, pearl necklace, lilac shawl, forehead display reads 12 AÑOS; CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: Still shielding the tiny cherry girl, the very fat grandmother turns her head toward someone off-screen to the right, lowers one arm and places her hand on her heart, voice breaking. DIALOGUE: Abuela says in neutral Latin American Spanish (elderly female voice, warm and protective, firm loving delivery; grave. Sacrifice, voice breaking. VOCAL: deep and solemn, dropping to a near whisper on the final words; telenovela acting, never flat or robotic) &quot;Ajo, toma mis doce años… pero a ella déjala.&quot; CAMERA: Medium shot, static. AUDIO: Heartbeat under tense strings.</textarea>
+  <p class="line">Abuela: &quot;Ajo, toma mis doce años… pero a ella déjala.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S12_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S12" data-key="TAPA_E01_S12"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S13">
+  <header class="shot-head"><span class="sid">TAPA_E01_S13</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 13 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S13.jpg" alt="Fotograma inicial TAPA_E01_S13" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S13">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S13" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 312 AÑOS. IDENTITY LOCK (never a human face, even in close-ups): DON AJO: his head is ONE WHOLE white garlic bulb with purple streaks, face ON the garlic skin, short chubby body, white suit, gold tooth, forehead display reads 312 AÑOS. ACTION: The garlic man, facing someone off-screen to the left, leans forward with a greedy grin and nods slowly, accepting the deal, gold tooth shining. DIALOGUE: Don Ajo says in neutral Latin American Spanish (older male voice, deep and oily, slow greedy delivery; mocking. Slow, cruel, satisfied. VOCAL: high sing-song mocking pitch, loud and cocky, a cruel laugh breaking through the words, stretching the insults; telenovela acting, never flat or robotic) &quot;Trato, abuela. Pero igual quiero ver ese número.&quot; CAMERA: Close-up, slow push-in. AUDIO: Tense strings rising.</textarea>
+  <p class="line">Don Ajo: &quot;Trato, abuela. Pero igual quiero ver ese número.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S13_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S13" data-key="TAPA_E01_S13"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S14">
+  <header class="shot-head"><span class="sid">TAPA_E01_S14</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 14 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S14.jpg" alt="Fotograma inicial TAPA_E01_S14" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S14">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S14" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: standing on the chair; fingertips on the seal. IDENTITY LOCK (never a human face, even in close-ups): CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits); PIÑA: her head is ONE WHOLE golden pineapple with tall green crown, face ON the pineapple skin, very tall skinny body, gold sequin dress, hoop earrings, forehead display reads 95 AÑOS. ACTION: The tiny cherry girl, already standing on a white chair, trembles with her fingertips on the edge of the silver seal; below, the pineapple sister shouts at her. DIALOGUE: Cerecita says in neutral Latin American Spanish (young adult female voice, sweet and fragile, soft trembling delivery; determined. Trembling but brave. VOCAL: low, firm and slow, controlled anger under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Si tengo cero, que todos lo vean.&quot; Then Piña answers in neutral Latin American Spanish (young adult female voice, bright and cocky, mocking sing-song delivery; angry. Loud and impatient. VOCAL: raised voice almost shouting, sharp and fast, trembling with outrage, hits each word hard; telenovela acting) &quot;¡Arráncatela ya!&quot; CAMERA: Low-angle medium shot, static. AUDIO: Drumroll building.</textarea>
+  <p class="line">Cerecita: &quot;Si tengo cero, que todos lo vean.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S14_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S14" data-key="TAPA_E01_S14"> Hecha</label></div>
+</article>
+<article class="shot" id="TAPA_E01_S15">
+  <header class="shot-head"><span class="sid">TAPA_E01_S15</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 15 de 15 · Patio de la fiesta</p>
+  <img class="frame" src="img/TAPA_E01_S15.jpg" alt="Fotograma inicial TAPA_E01_S15" loading="lazy" width="560" height="996">
+  <p class="hint"><b>OJO:</b> Esta toma arranca donde termina la 14: en Flow abre el clip TAPA_E01_S14, ve al último cuadro y usa «Guardar fotograma» como fotograma inicial. La cámara se acerca a Cerecita.</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>10s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-TAPA_E01_S15">Copiar prompt</button>
+  <textarea class="ptext" id="p-TAPA_E01_S15" readonly rows="4">Animate the provided starting frame. Keep the exact bright cartoony Pixar 3D look of the starting frame, saturated candy colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: hands cover the forehead the whole time; no digits visible. IDENTITY LOCK (never a human face, even in close-ups): CERECITA: her head is ONE WHOLE glossy red cherry with green stem, face ON the cherry skin, petite tiny body, huge eyes, silver seal sticker over her forehead screen (no digits). ACTION: The camera pushes in to a close-up of the tiny cherry girl standing on the chair; she looks straight into the camera, covers her forehead with both cupped hands, speaks, then lifts one corner of the seal under her hands: a soft green glow leaks between her fingers and lights her cheeks; her forehead stays fully covered. DIALOGUE: Cerecita says in neutral Latin American Spanish (young adult female voice, sweet and fragile, soft trembling delivery; determined. Voice breaking but firm, intimate, to the audience. VOCAL: low, firm and slow, controlled anger under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;¿Cuántos años crees que tengo debajo? Comenta y síguenos para más capítulos.&quot; CAMERA: Slow push-in from medium shot to close-up, she looks into the lens. AUDIO: Music swells to a peak and cuts.</textarea>
+  <p class="line">Cerecita: &quot;¿Cuántos años crees que tengo debajo? Comenta y síguenos para más capítulos.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>TAPA_E01_S15_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-TAPA_E01_S15" data-key="TAPA_E01_S15"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='cap1'; try{ start=localStorage.getItem('tab')||'cap1' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'cap1');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>

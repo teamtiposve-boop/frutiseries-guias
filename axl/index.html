@@ -1,0 +1,149 @@
+<title>AXL · Guía de Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.pair figure { margin:0; }
+.pair figcaption { font:600 .78rem var(--body); color:var(--muted); text-align:center; margin-top:2px; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style>
+<div class="top">
+  <h1>AXL · Reels de 1 minuto</h1>
+  <p class="sub">Por clip: guarda Inicio y Fin, súbelos en Flow (Fotogramas), toca «Copiar prompt», pega y genera con Veo 3.1 Fast. Descarga en 1080p y guárdalo con el nombre de la tarjeta.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="plan">Plan</button><button type="button" class="tab" data-tab="r05">05</button></nav>
+</div>
+<section class="panel" id="plan"><div class="cap-head"><h2>Plan · 6 reels de 1 minuto</h2><p>Veo 3.1 Fast · 10 créditos por clip · 8 s · fstudiobussines (9228). Reintento solo si el QA lo pide.</p></div><div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem"><thead><tr><th align="left">Reel</th><th align="left">Título</th><th align="left">Clips</th><th align="left">Créditos</th><th align="left">Estado</th><th align="left">Cuándo</th></tr></thead><tbody><tr><td><b>01</b></td><td>El closet que se vino abajo</td><td>10</td><td>100</td><td>Fotogramas en producción</td><td>Esta noche, si G2 pasa</td></tr><tr><td><b>02</b></td><td>Un día en AXL</td><td>0</td><td>0</td><td>TERMINADO · 100 % material real</td><td>Ya entregado</td></tr><tr><td><b>03</b></td><td>Le devolvemos el antes</td><td>5</td><td>50</td><td>Fotogramas en producción (en cadena)</td><td>Esta noche o mañana</td></tr><tr><td><b>04</b></td><td>La cocina que se cayó a pedazos</td><td>10</td><td>100</td><td>Fotogramas por generar (21)</td><td>Mañana</td></tr><tr><td><b>05</b></td><td>La pared de cables</td><td>8</td><td>80</td><td>Fotogramas generándose ahora</td><td>Esta noche</td></tr><tr><td><b>06</b></td><td>Mándanos tu foto</td><td>7</td><td>70</td><td>Fotogramas por generar (14)</td><td>Mañana</td></tr></tbody></table></div><p class="hint" style="margin-top:12px">Al terminar un reel, deja los clips en <b>Escritorio/AXL/R60/&lt;reel&gt;</b> con el nombre de cada tarjeta. Yo reviso cada clip (G3) y monto.</p></section><section class="panel" id="r05"><div class="cap-head"><h2>05 · La pared de cables → wall unit con vista a la bahía</h2><p>8 clips · Veo 3.1 Fast · 80 créditos (+ reintentos solo si el QA lo pide)</p></div><div class="grid"><article class="shot" id="05-T1a">
+  <header class="shot-head"><span class="sid">T1a</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 1 de 8 · El cepillo de la aspiradora, que ya tocaba el lazo, lo enrolla hasta tensar el cable de la consola.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_h0-cables.jpg" alt="Inicio: h0-cables" loading="lazy"><figcaption>Inicio · h0-cables</figcaption></figure><figure><img class="frame" src="img/05_h0b-cable-tenso.jpg" alt="Fin: h0b-cable-tenso" loading="lazy"><figcaption>Fin · h0b-cable-tenso</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: imagen izquierda = <b>Inicio</b>, derecha = <b>Fin</b>. Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T1a">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T1a" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. Nobody enters. The TV stays OFF; TV, stand and console stay in place. [00:00-00:03] The robot vacuum&#x27;s spinning side brush, already touching the slack cable loop in front of the right end of the stand, winds it in until the console&#x27;s power cable runs taut from the console to the vacuum and on to the power strip; the console stays upright. [00:03-00:08] The vacuum strains against the taut cable without moving. Sound: vacuum whir, cable rasping on the brush, motor pitch rising.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T1a.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T1a"> Hecha</label></div>
+</article><article class="shot" id="05-T1b">
+  <header class="shot-head"><span class="sid">T1b</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 2 de 8 · El cepillo sigue enrollando el cable; el tirón arrastra la consola hasta la esquina delantera derecha del mueble y desde ahí cae al piso.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_h0b-cable-tenso.jpg" alt="Inicio: h0b-cable-tenso" loading="lazy"><figcaption>Inicio · h0b-cable-tenso</figcaption></figure><figure><img class="frame" src="img/05_h1-consola-piso.jpg" alt="Fin: h1-consola-piso" loading="lazy"><figcaption>Fin · h1-consola-piso</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: imagen izquierda = <b>Inicio</b>, derecha = <b>Fin</b>. Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T1b">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T1b" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. Nobody enters. The TV stays OFF; TV and stand stay in place. [00:00-00:00.6] The side brush keeps winding the taut cable in and drags the white console to the front-right corner of the stand. [00:00.6-00:01.2] The console tips off that corner and drops straight down onto the floor in front of the right end of the stand, landing on its side; the power strip slides a little toward the vacuum. [00:01.2-00:08] The vacuum stalls with the cable around its brush; the cable stays plugged into the fallen console and goes slack. Sound: plastic scraping, a hard clack on the floor, the motor dying, a short error beep. The taut cable jerks the power strip a few centimetres forward across the floor.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T1b.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T1b"> Hecha</label></div>
+</article><article class="shot" id="05-T2">
+  <header class="shot-head"><span class="sid">T2</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 3 de 8 · La clienta entra por el borde izquierdo y recoge la consola, que sigue enchufada.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_h1-consola-piso.jpg" alt="Inicio: h1-consola-piso" loading="lazy"><figcaption>Inicio · h1-consola-piso</figcaption></figure><figure><div class="frame" style="aspect-ratio:9/16;display:grid;place-items:center">pendiente</div><figcaption>Fin · h2-clienta-consola</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: imagen izquierda = <b>Inicio</b>, derecha = <b>Fin</b>. Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T2">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T2" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. The TV stays OFF; stand, stalled vacuum and power strip stay in place. The woman is seen from behind or three-quarters from behind, never from the front or in clear profile. [00:00-00:02] A woman (dark hair in a low bun, white linen shirt, beige linen trousers) walks in briskly through the left edge, between the coffee table and the stand, toward its right end. [00:02-00:05] She crouches, picks up the white console with both hands and stands holding it at her waist; its cable stays plugged in and hangs slack to the vacuum, which does not move. [00:05-00:08] She stays still, looking up at the cable tangle. Sound: quick footsteps on wood, a light plastic knock, a tired exhale.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T2.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T2"> Hecha</label></div>
+</article><article class="shot" id="05-T4">
+  <header class="shot-head"><span class="sid">T4</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 4 de 8 · El instalador baja la cinta métrica por la línea azul, lee y la deja recoger.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_02x-medicion.jpg" alt="Inicio: 02x-medicion" loading="lazy"><figcaption>Inicio · 02x-medicion</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: sube SOLO esta imagen como <b>Inicio</b> (Fin vacío). Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T4">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T4" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. Nobody enters or leaves. Ladder, tool bag and coiled cables rest on the floor. [00:00-00:08] The installer, seen from behind, slides the open tape measure down the blue tape line, holds it to read, then lets the blade retract into the case in his hand. The red laser line stays straight and steady; nobody touches the cables or outlets. Sound: tape blade sliding, the snap of the blade retracting, room tone.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T4.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T4"> Hecha</label></div>
+</article><article class="shot" id="05-T8">
+  <header class="shot-head"><span class="sid">T8</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 5 de 8 · En la escalera, el instalador mete dos tornillos en el listón.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_03x-estructura.jpg" alt="Inicio: 03x-estructura" loading="lazy"><figcaption>Inicio · 03x-estructura</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: sube SOLO esta imagen como <b>Inicio</b> (Fin vacío). Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T8">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T8" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. Nobody enters or leaves. Ladder and toolbox rest on the floor. The batten frame and the strapped TV cables inside it stay fixed; nobody touches the cables, outlets or wall surface. [00:00-00:08] Standing on the step ladder, seen from behind, the installer drives two screws into the batten with the cordless drill; a little sawdust drops. Ladder and frame stay solid. Sound: two short drill bursts, screws biting into wood, a light ladder creak.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T8.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T8"> Hecha</label></div>
+</article><article class="shot" id="05-T9">
+  <header class="shot-head"><span class="sid">T9</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 6 de 8 · El instalador empuja con las palmas el panel acanalado hasta que encaja al ras.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_05x-paneles.jpg" alt="Inicio: 05x-paneles" loading="lazy"><figcaption>Inicio · 05x-paneles</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: sube SOLO esta imagen como <b>Inicio</b> (Fin vacío). Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T9">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T9" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. Nobody enters or leaves; no tools appear in his hands. Installed panels and the cable bundle in the niche stay still; panel bundle and toolbox rest on the floor. [00:00-00:08] Seen from behind, the installer presses with both palms the fluted walnut panel that sits one finger proud until it seats flush with a firm click, then runs one hand down the seam. The panel stays straight and rigid. Sound: wood sliding on wood, a firm click, a palm brushing the flutes.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T9.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T9"> Hecha</label></div>
+</article><article class="shot" id="05-T10">
+  <header class="shot-head"><span class="sid">T10</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 7 de 8 · El instalador se levanta con la lona hecha un bulto y sale con ella por el borde izquierdo.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_06-detalles.jpg" alt="Inicio: 06-detalles" loading="lazy"><figcaption>Inicio · 06-detalles</figcaption></figure><figure><img class="frame" src="img/05_06x-sin-lona.jpg" alt="Fin: 06x-sin-lona" loading="lazy"><figcaption>Fin · 06x-sin-lona</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: imagen izquierda = <b>Inicio</b>, derecha = <b>Fin</b>. Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T10">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T10" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. Nobody enters. The drop cloth leaves only because he carries it out. Media wall, TV and shop vacuum stay in place; LEDs and TV stay OFF; the orange dusk stays the same. [00:00-00:03] Seen from behind, the kneeling installer gathers the spread drop cloth toward himself and folds it over twice into a thick bundle. [00:03-00:08] He stands up with the bundle in both arms and walks calmly out through the left edge, past the shop vacuum. Sound: canvas rustling, knees on wood, footsteps fading left.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T10.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T10"> Hecha</label></div>
+</article><article class="shot" id="05-T12">
+  <header class="shot-head"><span class="sid">T12</span><span class="dur">8 s</span></header>
+  <p class="meta">Clip 8 de 8 · La clienta entra por el borde izquierdo, se para mirando el mueble y se lleva las manos al pecho.</p>
+  <div class="pair"><figure><img class="frame" src="img/05_07-final-tv.jpg" alt="Inicio: 07-final-tv" loading="lazy"><figcaption>Inicio · 07-final-tv</figcaption></figure><figure><img class="frame" src="img/05_07c-clienta.jpg" alt="Fin: 07c-clienta" loading="lazy"><figcaption>Fin · 07c-clienta</figcaption></figure></div>
+  <p class="hint">Flow → Vídeo → <b>Fotogramas</b>: imagen izquierda = <b>Inicio</b>, derecha = <b>Fin</b>. Modelo <b>Veo 3.1 Fast</b>, <b>8 s</b>, vertical 9:16. Mantén presionada cada imagen para guardarla.</p>
+  <button class="copy" type="button" data-target="p-05-T12">Copiar prompt</button>
+  <textarea class="ptext" id="p-05-T12" readonly rows="4">Photorealistic, vertical 9:16. Locked camera: same framing, room and window the whole time. People enter or leave only through the LEFT frame edge. Nothing appears, vanishes, floats or morphs; gravity is respected. Installed pieces stay rigid. Light only moves forward. No phones, no faces, no text, no music, no speech: only the sounds described. No push-in, no pan. Media wall, TV, table, decor and sofa stay in place. LEDs and gold line stay ON; the TV keeps playing the same calm ocean scene, no text. The woman is seen from behind or three-quarters from behind, never from the front or in clear profile. [00:00-00:03] A woman (dark hair in a low bun, white linen shirt, beige linen trousers) walks in through the left edge, between the coffee table and the media wall. [00:03-00:05] She stops in the left third facing the wall and slowly brings both hands to her chest. [00:05-00:08] She stays still; city lights twinkle on the bay. Sound: soft footsteps, gentle waves from the TV, evening city ambience.</textarea>
+  <div class="foot"><span>Guárdalo como:</span> <code>R60-05-T12.mp4</code>
+    <label class="done"><input type="checkbox" data-key="05-T12"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='r05'; try{ start=localStorage.getItem('tab')||'r05' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'r05');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>

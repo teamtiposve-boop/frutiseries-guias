@@ -1,0 +1,355 @@
+<title>Detrás de la máscara · Producción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style>
+<div class="top">
+  <h1>Detrás de la máscara</h1>
+  <p class="sub">Por toma: guarda la imagen, súbela en Flow como fotograma inicial, toca «Copiar prompt», pégalo y genera.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="pjs" id="tab-pjs">Personajes</button><button type="button" class="tab" data-tab="cap1" id="tab-cap1">Cap 1</button></nav>
+</div>
+<section class="panel" id="pjs"><div class="cap-head"><h2>Crear en Flow una sola vez</h2><p>Flow → Caracteres → nuevo: nombre, ficha, voz y pega la descripción.</p></div><div class="grid"><article class="shot">
+  <header class="shot-head"><span class="sid">Kiwi</span><span class="dur">Puck</span></header>
+  <p class="meta">gemelo escondido, noble · voz alternativa: Fenrir</p>
+  <img class="ficha" src="img/ficha_kiwi.jpg" alt="Ficha de Kiwi" loading="lazy">
+  <button class="copy" type="button" data-target="d-Kiwi">Copiar descripción</button>
+  <textarea class="ptext" id="d-Kiwi" readonly rows="4">adult man in his mid-twenties, 1.78 m, slim adult build, whole fuzzy brown KIWI fruit head wearing a smooth cream-colored ceramic face cover shaped to his kiwi head, two large round eye openings showing warm friendly eyes, thin gold vine engravings around the edge, and a small gold keyhole on the forehead where his number would be (no digits visible); plain grey hoodie, dark jeans, white sneakers without logos VOICE: Young adult male voice, warm and calm, sincere gentle delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Mango</span><span class="dur">Enceladus</span></header>
+  <p class="meta">gemelo presumido, rival · voz alternativa: Orus</p>
+  <img class="ficha" src="img/ficha_mango.jpg" alt="Ficha de Mango" loading="lazy">
+  <button class="copy" type="button" data-target="d-Mango">Copiar descripción</button>
+  <textarea class="ptext" id="d-Mango" readonly rows="4">adult man in his mid-twenties, very TALL and MUSCULAR with broad shoulders, whole glossy red-yellow MANGO fruit head with a small green leaf, confident smug grin, gold varsity jacket with no letters or patches, white t-shirt, plain gold chain and gold watch, white sneakers without logos; forehead display reads exactly 200 BTC VOICE: Young adult male voice, loud and confident, smug bragging delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Frambuesa</span><span class="dur">Vindemiatrix</span></header>
+  <p class="meta">la mujer más popular, elige a Kiwi · voz alternativa: Achernar</p>
+  <img class="ficha" src="img/ficha_frambuesa.jpg" alt="Ficha de Frambuesa" loading="lazy">
+  <button class="copy" type="button" data-target="d-Frambuesa">Copiar descripción</button>
+  <textarea class="ptext" id="d-Frambuesa" readonly rows="4">elegant adult woman in her late twenties, 1.72 m, adult proportions, whole glossy red RASPBERRY fruit head with a small green crown of leaves, almond-shaped adult eyes, defined cheekbones, red lipstick, gold earrings; cream blazer, white blouse, midi pencil skirt below the knee, low heels; forehead display reads exactly 15 BTC VOICE: Adult female voice, warm and confident, soft elegant delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Papaya</span><span class="dur">Gacrux</span></header>
+  <p class="meta">mamá que solo mira los números · voz alternativa: Sulafat</p>
+  <img class="ficha" src="img/ficha_papaya.jpg" alt="Ficha de Papaya" loading="lazy">
+  <button class="copy" type="button" data-target="d-Papaya">Copiar descripción</button>
+  <textarea class="ptext" id="d-Papaya" readonly rows="4">wide elegant middle-aged woman, generous figure, whole glossy orange-green PAPAYA fruit head, proud raised eyebrows, red lipstick, big pearl necklace, emerald silk robe; forehead display reads exactly 5.000 BTC VOICE: Mature female voice, proud and elegant, measured cold delivery, neutral Latin American Spanish</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Apio</span><span class="dur">Algenib</span></header>
+  <p class="meta">el doctor de la familia · voz alternativa: Charon</p>
+  <img class="ficha" src="img/ficha_apio.jpg" alt="Ficha de Apio" loading="lazy">
+  <button class="copy" type="button" data-target="d-Apio">Copiar descripción</button>
+  <textarea class="ptext" id="d-Apio" readonly rows="4">tall thin older man, whole green CELERY bunch head with leafy top, round glasses, calm serious face, grey suit and tie, brown leather doctor&#x27;s bag; forehead display reads exactly 40 BTC VOICE: Older male voice, deep and calm, slow serious delivery, neutral Latin American Spanish</textarea>
+</article></div></section><section class="panel" id="cap1"><div class="cap-head"><h2>Capítulo 1 · El hermano sin número</h2><p>21 tomas · ~2:38 · Piloto · producir primero</p></div><div class="grid"><article class="shot" id="MASC_E01_S01">
+  <header class="shot-head"><span class="sid">MASC_E01_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 21 · Sala de Doña Papaya</p>
+  <img class="frame" src="img/MASC_E01_S01.jpg" alt="Fotograma inicial MASC_E01_S01" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S01" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Papaya seated in the armchair; displays read 5.000 BTC and 40 BTC. IDENTITY LOCK (never a human face, even in close-ups): PAPAYA: her head is ONE WHOLE glossy orange-green papaya, face ON the papaya skin, wide elegant woman, emerald silk robe, pearl necklace, forehead display reads 5.000 BTC; APIO: his head is ONE WHOLE green celery bunch with leafy top, face ON the celery, tall thin man, grey suit, round glasses, forehead display reads 40 BTC. ACTION: The wide elegant papaya woman, seated in the emerald armchair, leans forward eagerly and asks the tall celery doctor standing beside her. DIALOGUE: Papaya says in neutral Latin American Spanish (mature female voice, proud and elegant, measured cold delivery; curious. Eager, proud mother. VOCAL: intrigued, rising pitch, playful suspense, leaning in; telenovela acting, never flat or robotic) &quot;Doctor, ¿qué número les salió a mis gemelos?&quot; CAMERA: Medium two-shot, static. AUDIO: Soft elegant piano.</textarea>
+  <p class="line">Papaya: &quot;Doctor, ¿qué número les salió a mis gemelos?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S01" data-key="MASC_E01_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S02">
+  <header class="shot-head"><span class="sid">MASC_E01_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 21 · Sala de Doña Papaya</p>
+  <img class="frame" src="img/MASC_E01_S02.jpg" alt="Fotograma inicial MASC_E01_S02" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S02" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: displays read 40 BTC and 5.000 BTC. IDENTITY LOCK (never a human face, even in close-ups): APIO: his head is ONE WHOLE green celery bunch with leafy top, face ON the celery, tall thin man, grey suit, round glasses, forehead display reads 40 BTC; PAPAYA: her head is ONE WHOLE glossy orange-green papaya, face ON the papaya skin, wide elegant woman, emerald silk robe, pearl necklace, forehead display reads 5.000 BTC. ACTION: The tall celery doctor smiles and announces the good news; the papaya woman beams with pride. DIALOGUE: Apio says in neutral Latin American Spanish (older male voice, deep and calm, slow serious delivery; calm. Proud announcement. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;El mayor trae 200 bitcoins. Será el más rico de la ciudad.&quot; CAMERA: Medium shot, static. AUDIO: Bright music sting.</textarea>
+  <p class="line">Apio: &quot;El mayor trae 200 bitcoins. Será el más rico de la ciudad.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S02" data-key="MASC_E01_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S03">
+  <header class="shot-head"><span class="sid">MASC_E01_S03</span><span class="dur">4s</span></header>
+  <p class="meta">Toma 3 de 21 · Sala de Doña Papaya</p>
+  <img class="frame" src="img/MASC_E01_S03.jpg" alt="Fotograma inicial MASC_E01_S03" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>4s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S03" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 5.000 BTC. IDENTITY LOCK (never a human face, even in close-ups): PAPAYA: her head is ONE WHOLE glossy orange-green papaya, face ON the papaya skin, wide elegant woman, emerald silk robe, pearl necklace, forehead display reads 5.000 BTC. ACTION: The papaya woman&#x27;s smile fades and she asks quickly. DIALOGUE: Papaya says in neutral Latin American Spanish (mature female voice, proud and elegant, measured cold delivery; concerned. Suddenly worried. VOCAL: low, grave and urgent, worried tremble, slow pause in the middle; telenovela acting, never flat or robotic) &quot;¿Y el otro?&quot; CAMERA: Close-up, static. AUDIO: Music stops.</textarea>
+  <p class="line">Papaya: &quot;¿Y el otro?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S03" data-key="MASC_E01_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S04">
+  <header class="shot-head"><span class="sid">MASC_E01_S04</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 4 de 21 · Sala de Doña Papaya</p>
+  <img class="frame" src="img/MASC_E01_S04.jpg" alt="Fotograma inicial MASC_E01_S04" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S04" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: golden key on the coffee table; display reads 40 BTC. IDENTITY LOCK (never a human face, even in close-ups): APIO: his head is ONE WHOLE green celery bunch with leafy top, face ON the celery, tall thin man, grey suit, round glasses, forehead display reads 40 BTC. ACTION: The celery doctor places a small golden key on the marble coffee table and speaks seriously. DIALOGUE: Apio says in neutral Latin American Spanish (older male voice, deep and calm, slow serious delivery; grave. Mysterious and serious. VOCAL: deep and solemn, dropping to a near whisper on the final words; telenovela acting, never flat or robotic) &quot;No veo su número. La máscara sale a los 21, con esta llave.&quot; CAMERA: Medium shot, slow dolly-in to the key. AUDIO: Mysterious low strings.</textarea>
+  <p class="line">Apio: &quot;No veo su número. La máscara sale a los 21, con esta llave.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S04" data-key="MASC_E01_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S05">
+  <header class="shot-head"><span class="sid">MASC_E01_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S05.jpg" alt="Fotograma inicial MASC_E01_S05" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S05" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: hands in pockets; gold car; display reads 200 BTC; Kiwi&#x27;s mask with gold keyhole. IDENTITY LOCK (never a human face, even in close-ups): MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: Years later, the tall muscular mango man leans on the gold car with his hands in his pockets and speaks to his masked twin without looking at him. DIALOGUE: Mango says in neutral Latin American Spanish (young adult male voice, loud and confident, smug bragging delivery; confident. Smug, bored, superior. VOCAL: loud, smug and showy, rising pitch at the end, savoring every word; telenovela acting, never flat or robotic) &quot;Aquí, aléjate de mí. No quiero que sepan que somos hermanos.&quot; CAMERA: Medium two-shot, static. AUDIO: Campus ambience, light music.</textarea>
+  <p class="line">Mango: &quot;Aquí, aléjate de mí. No quiero que sepan que somos hermanos.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S05" data-key="MASC_E01_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S06">
+  <header class="shot-head"><span class="sid">MASC_E01_S06</span><span class="dur">6s</span></header>
+  <p class="meta">Toma 6 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S06.jpg" alt="Fotograma inicial MASC_E01_S06" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>6s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S06" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Kiwi&#x27;s mask with gold keyhole. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie; MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC. ACTION: The masked kiwi man answers softly, a little hurt. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; humble. Soft, a little hurt. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;Pero mamá te dijo que me cuidaras.&quot; CAMERA: Medium shot, static. AUDIO: Single soft note.</textarea>
+  <p class="line">Kiwi: &quot;Pero mamá te dijo que me cuidaras.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S06" data-key="MASC_E01_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S07">
+  <header class="shot-head"><span class="sid">MASC_E01_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S07.jpg" alt="Fotograma inicial MASC_E01_S07" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S07" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: gold watch; gold car; display reads 200 BTC. IDENTITY LOCK (never a human face, even in close-ups): MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The mango man shows off his gold watch, taps the gold car proudly and smirks at his twin. DIALOGUE: Mango says in neutral Latin American Spanish (young adult male voice, loud and confident, smug bragging delivery; mocking. Bragging, enjoying it. VOCAL: high sing-song teasing pitch, loud and cocky, a smug little laugh breaking through the words, stretching each word; telenovela acting, never flat or robotic) &quot;Mis 200 bitcoins compraron este reloj y el carro. ¿Y tú? ¿Cero?&quot; CAMERA: Medium two-shot, static. AUDIO: Playful bragging music.</textarea>
+  <p class="line">Mango: &quot;Mis 200 bitcoins compraron este reloj y el carro. ¿Y tú? ¿Cero?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S07" data-key="MASC_E01_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S08">
+  <header class="shot-head"><span class="sid">MASC_E01_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S08.jpg" alt="Fotograma inicial MASC_E01_S08" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S08" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Frambuesa walks in the background. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie; MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC; FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC. ACTION: The masked kiwi man turns his head toward an elegant raspberry woman walking past in the background; the mango man answers without interest. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; curious. Amazed, soft. VOCAL: intrigued, rising pitch, playful suspense, leaning in; telenovela acting, never flat or robotic) &quot;¿Quién es ella?&quot; Then Mango answers in neutral Latin American Spanish (young adult male voice, loud and confident, smug bragging delivery; confident. Smug. VOCAL: loud, smug and showy, rising pitch at the end, savoring every word; telenovela acting) &quot;La más popular de la universidad. Ni lo intentes.&quot; CAMERA: Medium shot, static. AUDIO: Romantic soft music.</textarea>
+  <p class="line">Kiwi: &quot;¿Quién es ella?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S08" data-key="MASC_E01_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S09">
+  <header class="shot-head"><span class="sid">MASC_E01_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 21 · Biblioteca de la universidad</p>
+  <img class="frame" src="img/MASC_E01_S09.jpg" alt="Fotograma inicial MASC_E01_S09" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S09" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: lilac envelope in her hand; display reads 15 BTC. IDENTITY LOCK (never a human face, even in close-ups): FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: In the library, the elegant raspberry woman approaches the masked kiwi man who is reading, and smiles with curiosity. DIALOGUE: Frambuesa says in neutral Latin American Spanish (adult female voice, warm and confident, soft elegant delivery; curious. Warm, intrigued. VOCAL: intrigued, rising pitch, playful suspense, leaning in; telenovela acting, never flat or robotic) &quot;¿Tú eres el de la máscara? Escondes tu número… eso me gusta.&quot; CAMERA: Medium two-shot, static. AUDIO: Quiet library ambience, soft music.</textarea>
+  <p class="line">Frambuesa: &quot;¿Tú eres el de la máscara? Escondes tu número… eso me gusta.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S09" data-key="MASC_E01_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S10">
+  <header class="shot-head"><span class="sid">MASC_E01_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 21 · Biblioteca de la universidad</p>
+  <img class="frame" src="img/MASC_E01_S10.jpg" alt="Fotograma inicial MASC_E01_S10" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S10" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: lilac envelope in her hand. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie; FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC. ACTION: The masked kiwi man looks up from his book, surprised and shy. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; humble. Shy, surprised. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;¿En serio? Todos me dicen que seguro tengo cero.&quot; CAMERA: Medium shot, static. AUDIO: Soft music.</textarea>
+  <p class="line">Kiwi: &quot;¿En serio? Todos me dicen que seguro tengo cero.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S10" data-key="MASC_E01_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S11">
+  <header class="shot-head"><span class="sid">MASC_E01_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 21 · Biblioteca de la universidad</p>
+  <img class="frame" src="img/MASC_E01_S11.jpg" alt="Fotograma inicial MASC_E01_S11" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S11" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: lilac envelope on the table; display reads 15 BTC. IDENTITY LOCK (never a human face, even in close-ups): FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The raspberry woman places the lilac envelope on the table in front of him and smiles warmly. DIALOGUE: Frambuesa says in neutral Latin American Spanish (adult female voice, warm and confident, soft elegant delivery; tender. Warm, a little shy. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;Esto es para ti. Léelo luego, con calma.&quot; CAMERA: Close two-shot, static. AUDIO: Romantic soft music.</textarea>
+  <p class="line">Frambuesa: &quot;Esto es para ti. Léelo luego, con calma.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S11" data-key="MASC_E01_S11"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S12">
+  <header class="shot-head"><span class="sid">MASC_E01_S12</span><span class="dur">6s</span></header>
+  <p class="meta">Toma 12 de 21 · Biblioteca de la universidad</p>
+  <img class="frame" src="img/MASC_E01_S12.jpg" alt="Fotograma inicial MASC_E01_S12" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>6s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S12">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S12" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: lilac envelope in his hands. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The masked kiwi man picks up the lilac envelope and holds it with both hands, moved. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; tender. Moved, almost a whisper. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;Gracias. No me lo esperaba.&quot; CAMERA: Close-up, static. AUDIO: Soft heartbeat.</textarea>
+  <p class="line">Kiwi: &quot;Gracias. No me lo esperaba.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S12_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S12" data-key="MASC_E01_S12"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S13">
+  <header class="shot-head"><span class="sid">MASC_E01_S13</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 13 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S13.jpg" alt="Fotograma inicial MASC_E01_S13" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S13">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S13" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: stone bench; displays read 200 BTC and 15 BTC. IDENTITY LOCK (never a human face, even in close-ups): MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC; FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The next day by the stone bench, the mango man steps between the raspberry woman and his masked twin and invites her with a smug smile. DIALOGUE: Mango says in neutral Latin American Spanish (young adult male voice, loud and confident, smug bragging delivery; confident. Showy, flirty. VOCAL: loud, smug and showy, rising pitch at the end, savoring every word; telenovela acting, never flat or robotic) &quot;Tengo 200 bitcoins. Te llevo al restaurante más caro.&quot; CAMERA: Medium shot, static. AUDIO: Playful music.</textarea>
+  <p class="line">Mango: &quot;Tengo 200 bitcoins. Te llevo al restaurante más caro.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S13_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S13" data-key="MASC_E01_S13"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S14">
+  <header class="shot-head"><span class="sid">MASC_E01_S14</span><span class="dur">6s</span></header>
+  <p class="meta">Toma 14 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S14.jpg" alt="Fotograma inicial MASC_E01_S14" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>6s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S14">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S14" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 15 BTC. IDENTITY LOCK (never a human face, even in close-ups): FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC; MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC. ACTION: The raspberry woman shakes her head politely and points with her open hand toward the masked kiwi man. DIALOGUE: Frambuesa says in neutral Latin American Spanish (adult female voice, warm and confident, soft elegant delivery; calm. Polite but firm. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;No, gracias. Estaba hablando con tu hermano.&quot; CAMERA: Medium shot, static. AUDIO: Music stops for a beat.</textarea>
+  <p class="line">Frambuesa: &quot;No, gracias. Estaba hablando con tu hermano.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S14_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S14" data-key="MASC_E01_S14"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S15">
+  <header class="shot-head"><span class="sid">MASC_E01_S15</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 15 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S15.jpg" alt="Fotograma inicial MASC_E01_S15" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S15">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S15" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 200 BTC. IDENTITY LOCK (never a human face, even in close-ups): MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC; FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC. ACTION: The mango man laughs in disbelief and gestures toward his masked twin. DIALOGUE: Mango says in neutral Latin American Spanish (young adult male voice, loud and confident, smug bragging delivery; mocking. Disbelief, superior. VOCAL: high sing-song teasing pitch, loud and cocky, a smug little laugh breaking through the words, stretching each word; telenovela acting, never flat or robotic) &quot;¿Sabes cuánto vale? Ni siquiera puedes ver su número.&quot; CAMERA: Medium shot, static. AUDIO: Tense music.</textarea>
+  <p class="line">Mango: &quot;¿Sabes cuánto vale? Ni siquiera puedes ver su número.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S15_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S15" data-key="MASC_E01_S15"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S16">
+  <header class="shot-head"><span class="sid">MASC_E01_S16</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 16 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S16.jpg" alt="Fotograma inicial MASC_E01_S16" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S16">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S16" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: display reads 15 BTC. IDENTITY LOCK (never a human face, even in close-ups): FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC. ACTION: The raspberry woman looks him in the eye calmly and answers with dignity. DIALOGUE: Frambuesa says in neutral Latin American Spanish (adult female voice, warm and confident, soft elegant delivery; firm. Calm, dignified. VOCAL: deep, grave and commanding, slow with heavy dramatic pauses; telenovela acting, never flat or robotic) &quot;Yo no juzgo a nadie por el número de su frente.&quot; CAMERA: Close-up, static. AUDIO: Strong music hit.</textarea>
+  <p class="line">Frambuesa: &quot;Yo no juzgo a nadie por el número de su frente.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S16_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S16" data-key="MASC_E01_S16"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S17">
+  <header class="shot-head"><span class="sid">MASC_E01_S17</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 17 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S17.jpg" alt="Fotograma inicial MASC_E01_S17" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S17">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S17" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: lilac envelope on the bench. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie; FRAMBUESA: her head is ONE WHOLE glossy red raspberry, face ON the raspberry, elegant adult woman, cream blazer and midi skirt, forehead display reads 15 BTC. ACTION: The masked kiwi man places the lilac envelope on the stone bench and thanks the raspberry woman shyly. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; tender. Shy, grateful. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;Gracias por la carta. No pensé que te fijarías en mí.&quot; CAMERA: Medium two-shot, static. AUDIO: Romantic soft music.</textarea>
+  <p class="line">Kiwi: &quot;Gracias por la carta. No pensé que te fijarías en mí.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S17_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S17" data-key="MASC_E01_S17"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S18">
+  <header class="shot-head"><span class="sid">MASC_E01_S18</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 18 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S18.jpg" alt="Fotograma inicial MASC_E01_S18" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S18">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S18" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: lilac envelope in Mango&#x27;s raised hand; nobody touches anybody; display reads 200 BTC. IDENTITY LOCK (never a human face, even in close-ups): MANGO: his head is ONE WHOLE glossy red-yellow mango fruit, face ON the mango skin, very tall muscular adult man, gold varsity jacket, gold chain, forehead display reads 200 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The mango man picks up the lilac envelope from the bench, waves it in the air with a smug grin, without touching anyone. DIALOGUE: Mango says in neutral Latin American Spanish (young adult male voice, loud and confident, smug bragging delivery; mocking. Teasing, enjoying it. VOCAL: high sing-song teasing pitch, loud and cocky, a smug little laugh breaking through the words, stretching each word; telenovela acting, never flat or robotic) &quot;¿Y esto? Mañana toda la universidad sabrá quién te escribe.&quot; CAMERA: Medium shot, static. AUDIO: Tense playful music.</textarea>
+  <p class="line">Mango: &quot;¿Y esto? Mañana toda la universidad sabrá quién te escribe.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S18_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S18" data-key="MASC_E01_S18"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S19">
+  <header class="shot-head"><span class="sid">MASC_E01_S19</span><span class="dur">6s</span></header>
+  <p class="meta">Toma 19 de 21 · Frente a la universidad</p>
+  <img class="frame" src="img/MASC_E01_S19.jpg" alt="Fotograma inicial MASC_E01_S19" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>6s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S19">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S19" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: open hand held out. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The masked kiwi man stands firm, holds out his open hand and asks calmly. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; firm. Calm, serious, controlled. VOCAL: deep, grave and commanding, slow with heavy dramatic pauses; telenovela acting, never flat or robotic) &quot;Ese sobre es mío. Dámelo, por favor.&quot; CAMERA: Medium close-up, static. AUDIO: Tense strings.</textarea>
+  <p class="line">Kiwi: &quot;Ese sobre es mío. Dámelo, por favor.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S19_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S19" data-key="MASC_E01_S19"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S20">
+  <header class="shot-head"><span class="sid">MASC_E01_S20</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 20 de 21 · Sala de Doña Papaya</p>
+  <img class="frame" src="img/MASC_E01_S20.jpg" alt="Fotograma inicial MASC_E01_S20" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S20">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S20" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: open box with the golden key on the table; display reads 5.000 BTC. IDENTITY LOCK (never a human face, even in close-ups): PAPAYA: her head is ONE WHOLE glossy orange-green papaya, face ON the papaya skin, wide elegant woman, emerald silk robe, pearl necklace, forehead display reads 5.000 BTC; KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: That night in the living room, the papaya woman opens a small box with the golden key on the coffee table; the masked kiwi man looks at it. DIALOGUE: Papaya says in neutral Latin American Spanish (mature female voice, proud and elegant, measured cold delivery; formal. Cold, measured. VOCAL: crisp, precise and cold, sharp emphasis on numbers and conditions; telenovela acting, never flat or robotic) &quot;A medianoche cumples 21. El doctor dejó esta llave para tu máscara.&quot; CAMERA: Medium two-shot, static. AUDIO: Clock ticking, mysterious music.</textarea>
+  <p class="line">Papaya: &quot;A medianoche cumples 21. El doctor dejó esta llave para tu máscara.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S20_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S20" data-key="MASC_E01_S20"> Hecha</label></div>
+</article>
+<article class="shot" id="MASC_E01_S21">
+  <header class="shot-head"><span class="sid">MASC_E01_S21</span><span class="dur">10s</span></header>
+  <p class="meta">Toma 21 de 21 · Sala de Doña Papaya</p>
+  <img class="frame" src="img/MASC_E01_S21.jpg" alt="Fotograma inicial MASC_E01_S21" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>10s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-MASC_E01_S21">Copiar prompt</button>
+  <textarea class="ptext" id="p-MASC_E01_S21" readonly rows="4">Animate the provided starting frame. Keep the exact glossy 3D Pixar look of the starting frame, bright saturated colors, crisp background, vertical 9:16. CONTINUITY: set, props, clothes and whole fruit heads stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: golden key in his hand; no digits visible. IDENTITY LOCK (never a human face, even in close-ups): KIWI: his head is ONE WHOLE fuzzy brown kiwi fruit covered by a cream ceramic face cover with eye openings and a gold keyhole on the forehead, adult man, grey hoodie. ACTION: The masked kiwi man picks up the golden key, looks straight into the camera holding it up next to the gold keyhole on his mask, and speaks to the audience. DIALOGUE: Kiwi says in neutral Latin American Spanish (young adult male voice, warm and calm, sincere gentle delivery; determined. Hopeful and intense, to the audience. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;A medianoche por fin sabré cuántos tengo. ¿Cuántos crees tú? Comenta y síguenos para más capítulos.&quot; CAMERA: Close-up, very slow dolly-in, he looks into the lens. AUDIO: Music swells and cuts.</textarea>
+  <p class="line">Kiwi: &quot;A medianoche por fin sabré cuántos tengo. ¿Cuántos crees tú? Comenta y síguenos para más capítulos.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>MASC_E01_S21_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-MASC_E01_S21" data-key="MASC_E01_S21"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='cap1'; try{ start=localStorage.getItem('tab')||'cap1' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'cap1');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>

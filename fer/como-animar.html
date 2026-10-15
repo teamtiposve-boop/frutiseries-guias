@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo animar · Fercho</title>
+<style>
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --ok:#3f7d55; --warn:#a2452f; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --ok:#7cc293; --warn:#e8876d; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --ok:#7cc293; --warn:#e8876d; --code:#2b2019; color-scheme:dark; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 var(--body); padding:0 16px 56px; }
+main { max-width:680px; margin:0 auto; }
+header { padding:22px 0 8px; border-bottom:1px solid var(--line); }
+h1 { font:800 1.6rem/1.15 var(--display); margin:0 0 6px; text-wrap:balance; }
+.sub { margin:0; color:var(--muted); font-size:.92rem; }
+.back { display:inline-block; margin-top:10px; color:var(--accent); font-weight:600; text-decoration:none; }
+section { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-top:16px; }
+h2 { font:800 1.15rem/1.2 var(--display); margin:0 0 10px; display:flex; gap:10px; align-items:baseline; }
+h2 .n { font:700 .85rem var(--mono); color:var(--accent); }
+ol, ul { margin:0; padding-left:20px; }
+li { margin:6px 0; }
+b { font-weight:700; }
+code { font:13px var(--mono); background:var(--code); padding:1px 5px; border-radius:5px; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; }
+th, td { text-align:left; padding:7px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+th { color:var(--muted); font-weight:600; font-size:.8rem; text-transform:uppercase; letter-spacing:.03em; }
+.warn { border-color:var(--warn); }
+.warn h2 { color:var(--warn); }
+.ok { border-color:var(--ok); }
+.tip { margin:10px 0 0; color:var(--muted); font-size:.88rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Cómo animar los videos de Fercho</h1>
+  <p class="sub">Manual de Fstudio para pasar de la guía a los clips en Flow, sin gastar de más.</p>
+  <a class="back" href="./">← Volver a la guía de tomas</a>
+</header>
+
+<section>
+  <h2><span class="n">01</span>Antes de empezar (una sola vez)</h2>
+  <ol>
+    <li>Abre Flow con <b>fstudiobussines</b>, la cuenta Ultra, en tu Chrome.</li>
+    <li>Crea un proyecto llamado <b>«Fercho · Persistencia»</b>. Todos los videos van ahí.</li>
+    <li>En <b>Personajes</b>, crea cada personaje con su ficha (la imagen de la pestaña de la guía), su nombre y su <b>voz fija</b>:</li>
+  </ol>
+  <table>
+    <tr><th>Personaje</th><th>Voz</th><th>Video</th></tr>
+    <tr><td><b>Fercho</b></td><td>Puck</td><td>todos</td></tr>
+    <tr><td>Camila</td><td>Achernar</td><td>1</td></tr>
+    <tr><td>Ramón · Rosa</td><td>Charon · Sulafat</td><td>2</td></tr>
+    <tr><td>Diego · Kevin</td><td>Fenrir · Puck</td><td>3</td></tr>
+    <tr><td>Valentina</td><td>Kore</td><td>4</td></tr>
+  </table>
+  <p class="tip">Crea solo los personajes del video que vas a animar. Una vez creados, no les cambies la voz: cambiarla rompe la continuidad entre videos.</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>Cada toma, paso a paso</h2>
+  <ol>
+    <li>Guarda el <b>fotograma</b> de la tarjeta: mantén presionada la imagen y elige Guardar.</li>
+    <li>En Flow elige <b>Gemini Omni 1.1 Flash · 720p</b> en modo <b>Ingredientes</b>.</li>
+    <li>Agrega el fotograma y los personajes que salen en la toma (<code>@Fercho</code>, <code>@Camila</code>…).</li>
+    <li>Toca <b>Copiar prompt</b> en la guía y pégalo tal cual.</li>
+    <li>Elige la <b>duración de la tarjeta (8 s)</b> en el selector. La duración nunca va escrita en el prompt.</li>
+    <li>Genera <b>una sola vez (x1)</b>.</li>
+    <li>Descárgalo en <b>1080p</b> (es gratis) con el nombre de la tarjeta, por ejemplo <code>FER_E01_S01_v01.mp4</code>.</li>
+    <li>Marca <b>Hecha</b> en la guía.</li>
+  </ol>
+</section>
+
+<section class="ok">
+  <h2><span class="n">03</span>Revisa antes de pasar a la siguiente</h2>
+  <ul>
+    <li><b>Cara:</b> Fercho es Fercho, igual que en su ficha.</li>
+    <li><b>Voz:</b> la de su personaje, en español latino y con emoción, nunca plana.</li>
+    <li><b>Diálogo:</b> dice la frase completa, sin cortarla ni apurarla.</li>
+    <li><b>Continuidad:</b> misma ropa y mismo lugar, y nadie que aparezca de la nada.</li>
+  </ul>
+  <p class="tip">Si sale mal, repite <b>esa misma toma una vez</b>. Si vuelve a salir mal, márcala y avísame: la corrijo desde el guion, no con más intentos.</p>
+</section>
+
+<section class="warn">
+  <h2><span class="n">04</span>Reglas que no se rompen</h2>
+  <ul>
+    <li><b>1-1:</b> una cosa a la vez en la cuenta. Nunca dos tandas ni dos proyectos al mismo tiempo.</li>
+    <li><b>No cambies el prompt</b> por tu cuenta. Ya pasó el validador de Flow y el equipo del estudio.</li>
+    <li>Si Flow rechaza una toma (no te cobra), <b>no la reescribas tú</b>: pásame el código de la toma y la suavizo.</li>
+    <li>Cero niños: todos los personajes son adultos.</li>
+    <li>Nada de cifras de dinero en el video. Las vistas sí se muestran.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">05</span>Cuando termines un video</h2>
+  <ol>
+    <li>Pon los 11 clips en <code>Escritorio/fercho/video N</code> y avísame.</li>
+    <li>Yo armo el montaje:
+      <ul>
+        <li>los carteles («6 MESES DESPUÉS», MES 1 · 340 vistas…) y el número grande del video viral;</li>
+        <li>3 a 5 segundos de tus <b>métricas reales</b> antes del cierre;</li>
+        <li>la música y los subtítulos;</li>
+        <li>los silencios recortados, sin tirar lo que ya pagaste.</li>
+      </ul>
+    </li>
+    <li>Te lo entrego en <b>Drive, en máxima calidad</b>: video, portada y pie con la pregunta de bando y la palabra <b>CREAR</b>.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="n">06</span>Lo que hace que el video funcione</h2>
+  <ul>
+    <li><b>El eje:</b> la meta de crecer y esforzarse. Las historias cambian; el mensaje es siempre el mismo.</li>
+    <li><b>Los primeros 3 segundos:</b> un golpe con número, como «12 vistas».</li>
+    <li><b>El centro:</b> sentimiento y lucha. Disciplina, el método de 6 meses y fe. La revancha puede estar, pero no es el centro.</li>
+    <li><b>El cierre:</b> «Persistencia y perseverancia» + <b>escríbeme CREAR</b>.</li>
+    <li><b>Después de publicar:</b> medimos a las 24-48 h, y lo que funcione se vuelve regla para el siguiente video.</li>
+  </ul>
+</section>
+</main>
+</body>
+</html>

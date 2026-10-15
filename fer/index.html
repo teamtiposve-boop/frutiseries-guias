@@ -1,0 +1,503 @@
+<title>Fercho · Persistencia y perseverancia · Producción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: una columna de tarjetas de toma; pestañas fijas arriba; en pantallas anchas, rejilla de 2-3 */
+:root {
+  --bg:#fbf6ef; --card:#ffffff; --fg:#2a1d17; --muted:#7a6656; --line:#ead9c6;
+  --accent:#b8743a; --accent-fg:#ffffff; --ok:#3f7d55; --code:#f4ece2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#17110d; --card:#221913; --fg:#f3e8dc; --muted:#b39c87; --line:#3a2c22;
+  --accent:#e0a160; --accent-fg:#1a120c; --ok:#7cc293; --code:#2b2019; color-scheme:dark; }
+body { background:var(--bg); color:var(--fg); font:15px/1.5 var(--body); padding:0 16px 48px; }
+.top { position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:12px 10px; border-bottom:1px solid var(--line); margin:0 -16px; padding-inline:16px; }
+h1 { font:800 1.35rem/1.15 var(--display); margin:0 0 4px; text-wrap:balance; }
+.sub { margin:0 0 10px; color:var(--muted); font-size:.85rem; }
+.tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+.tab { font:600 .9rem var(--body); padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); white-space:nowrap; cursor:pointer; }
+.tab[aria-selected="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.cap-head h2 { font:800 1.2rem/1.2 var(--display); margin:20px 0 2px; text-wrap:balance; }
+.cap-head p { margin:0 0 14px; color:var(--muted); font-size:.85rem; }
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+.shot { scroll-margin-top:150px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.shot.is-done { opacity:.55; }
+.shot-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+.sid { font:600 .95rem var(--mono); }
+.dur { font:800 1.05rem var(--display); color:var(--accent); font-variant-numeric:tabular-nums; }
+.meta,.hint { margin:0; color:var(--muted); font-size:.82rem; }
+.frame,.ficha { width:100%; height:auto; border-radius:10px; background:var(--code); }
+.copy { font:600 1.05rem var(--body); padding:14px; border:0; border-radius:12px; background:var(--accent); color:var(--accent-fg); cursor:pointer; }
+.copy.ok { background:var(--ok); }
+.copy:focus-visible,.tab:focus-visible { outline:3px solid var(--fg); outline-offset:2px; }
+.ptext { width:100%; box-sizing:border-box; font:12px/1.45 var(--mono); color:var(--muted); background:var(--code); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.line { margin:0; font-size:.9rem; }
+.foot { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.85rem; color:var(--muted); }
+.foot code { font:12px var(--mono); color:var(--fg); }
+.done { margin-left:auto; display:flex; gap:6px; align-items:center; color:var(--fg); font-weight:600; }
+.done input { width:20px; height:20px; accent-color:var(--ok); }
+@media (prefers-reduced-motion: no-preference) { .copy { transition:background-color .2s; } }
+</style>
+<div class="top">
+  <h1>Fercho · Persistencia y perseverancia</h1>
+  <p class="sub">Por toma: guarda la imagen, súbela en Flow como fotograma inicial, toca «Copiar prompt», pégalo y genera.</p>
+  <nav class="tabs" role="tablist"><button type="button" class="tab" data-tab="pjs" id="tab-pjs">Personajes</button><button type="button" class="tab" data-tab="cap1" id="tab-cap1">Cap 1</button><button type="button" class="tab" data-tab="cap2" id="tab-cap2">Cap 2</button><button type="button" class="tab" data-tab="cap3" id="tab-cap3">Cap 3</button></nav>
+</div>
+<section class="panel" id="pjs"><div class="cap-head"><h2>Crear en Flow una sola vez</h2><p>Flow → Caracteres → nuevo: nombre, ficha, voz y pega la descripción.</p></div><div class="grid"><article class="shot">
+  <header class="shot-head"><span class="sid">Fercho</span><span class="dur">Puck</span></header>
+  <p class="meta">Protagonista (el jefe) · voz alternativa: Orus</p>
+  <img class="ficha" src="img/ficha_fercho.jpg" alt="Ficha de Fercho" loading="lazy">
+  <button class="copy" type="button" data-target="d-Fercho">Copiar descripción</button>
+  <textarea class="ptext" id="d-Fercho" readonly rows="4">the SAME Pixar-style young Latino man from the attached reference sheet (exact same face and identity), about 28, short dark hair faded on the sides with a textured top, thick dark eyebrows, warm brown eyes, light stubble beard and goatee, light-brown skin with subtle freckles, wearing a plain black hoodie, dark jeans and white sneakers VOICE: Adult male voice speaking neutral Latin American Spanish, about 28 years old, warm mid tone, sincere and determined, natural pacing.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Camila FER</span><span class="dur">Achernar</span></header>
+  <p class="meta">La novia que se cansa de esperar · voz alternativa: Aoede</p>
+  <img class="ficha" src="img/ficha_camila.jpg" alt="Ficha de Camila" loading="lazy">
+  <button class="copy" type="button" data-target="d-Camila">Copiar descripción</button>
+  <textarea class="ptext" id="d-Camila" readonly rows="4">a Pixar-style Latina woman, about 26, long wavy dark-brown hair, small gold hoop earrings, light-tan skin, wearing a beige trench coat over a white top, blue jeans and white sneakers VOICE: Young adult female voice speaking neutral Latin American Spanish, about 26 years old, clear tone, tired and cold.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Ramón FER</span><span class="dur">Charon</span></header>
+  <p class="meta">El papá que no cree · voz alternativa: Algenib</p>
+  <img class="ficha" src="img/ficha_ramon.jpg" alt="Ficha de Ramón" loading="lazy">
+  <button class="copy" type="button" data-target="d-Ramón">Copiar descripción</button>
+  <textarea class="ptext" id="d-Ramón" readonly rows="4">a Pixar-style Latino man, about 58, short grey hair, grey moustache, tired kind eyes, tan skin, wearing a blue plaid button shirt with rolled sleeves, brown trousers and brown work boots VOICE: Mature male voice speaking neutral Latin American Spanish, about 58 years old, deep tired tone, slow.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Rosa FER</span><span class="dur">Sulafat</span></header>
+  <p class="meta">La mamá que duda pero apoya · voz alternativa: Gacrux</p>
+  <img class="ficha" src="img/ficha_rosa.jpg" alt="Ficha de Rosa" loading="lazy">
+  <button class="copy" type="button" data-target="d-Rosa">Copiar descripción</button>
+  <textarea class="ptext" id="d-Rosa" readonly rows="4">a Pixar-style Latina woman, about 55, curly dark hair with grey streaks tied in a low bun, round glasses, warm brown skin, wearing a floral blouse under a soft green cardigan and a dark skirt VOICE: Mature female voice speaking neutral Latin American Spanish, about 55 years old, warm worried tone.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Diego FER</span><span class="dur">Fenrir</span></header>
+  <p class="meta">El alumno del que se burlan · voz alternativa: Orus</p>
+  <img class="ficha" src="img/ficha_diego.jpg" alt="Ficha de Diego" loading="lazy">
+  <button class="copy" type="button" data-target="d-Diego">Copiar descripción</button>
+  <textarea class="ptext" id="d-Diego" readonly rows="4">a Pixar-style young adult Latino man, about 23, slim build, messy curly black hair, black rectangular glasses, light-brown skin, wearing a grey hoodie, black joggers and red sneakers VOICE: Young adult male voice speaking neutral Latin American Spanish, about 23 years old, soft tone, insecure at first.</textarea>
+</article><article class="shot">
+  <header class="shot-head"><span class="sid">Kevin FER</span><span class="dur">Puck</span></header>
+  <p class="meta">El pana que se burla · voz alternativa: Fenrir</p>
+  <img class="ficha" src="img/ficha_kevin.jpg" alt="Ficha de Kevin" loading="lazy">
+  <button class="copy" type="button" data-target="d-Kevin">Copiar descripción</button>
+  <textarea class="ptext" id="d-Kevin" readonly rows="4">a Pixar-style young adult Latino man, about 24, stocky build, red baseball cap worn backwards, short fade haircut, tan skin, wearing a white t-shirt under an open denim jacket, khaki shorts and white sneakers VOICE: Young adult male voice speaking neutral Latin American Spanish, about 24 years old, loud cocky tone.</textarea>
+</article></div></section><section class="panel" id="cap1"><div class="cap-head"><h2>Capítulo 1 · Sin futuro</h2><p>11 tomas · ~1:28 · Piloto · producir primero</p></div><div class="grid"><article class="shot" id="FER_E01_S01">
+  <header class="shot-head"><span class="sid">FER_E01_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 11 · Calle del barrio, de noche</p>
+  <img class="frame" src="img/FER_E01_S01.jpg" alt="Fotograma inicial FER_E01_S01" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S01" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Camila holds the travel bag; streetlight above. ACTION: Camila stands at the gate holding a small travel bag, already turned half away from Fercho; she looks back at him with tired cold eyes while he stands frozen holding his phone. DIALOGUE: Camila says in neutral Latin American Spanish (Young female voice, about 26, clear tone, tired and cold; firm. Slow, a heavy pause before &quot;Me cansé&quot;. VOCAL: deep, grave and commanding, slow with heavy dramatic pauses; telenovela acting, never flat or robotic) &quot;Tres años esperando que esos videitos den algo. Me cansé, Fercho.&quot; CAMERA: Medium two-shot, slow push-in on Camila. AUDIO: Distant dogs, a buzzing streetlight.</textarea>
+  <p class="line">Camila: &quot;Tres años esperando que esos videitos den algo. Me cansé, Fercho.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S01" data-key="FER_E01_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S02">
+  <header class="shot-head"><span class="sid">FER_E01_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 11 · Calle del barrio, de noche</p>
+  <img class="frame" src="img/FER_E01_S02.jpg" alt="Fotograma inicial FER_E01_S02" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S02" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: black hoodie; phone in his other hand. ACTION: Fercho steps toward her, eyes wet, raising one open hand. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; humble. Voice cracks on &quot;Solo seis&quot;. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;Dame seis meses. Solo seis.&quot; CAMERA: Close-up on Fercho, handheld. AUDIO: Quiet night ambience.</textarea>
+  <p class="line">Fercho: &quot;Dame seis meses. Solo seis.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S02" data-key="FER_E01_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S03">
+  <header class="shot-head"><span class="sid">FER_E01_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 11 · Calle del barrio, de noche</p>
+  <img class="frame" src="img/FER_E01_S03.jpg" alt="Fotograma inicial FER_E01_S03" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S03" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: travel bag on her shoulder. ACTION: Camila shakes her head, adjusts the bag on her shoulder and walks away down the street without looking back. DIALOGUE: Camila says in neutral Latin American Spanish (Young female voice, about 26, clear tone, tired and cold; discreet. Dry and cold, slow. VOCAL: dry, low and ironic, a knowing half-smile in the voice; telenovela acting, never flat or robotic) &quot;Seis meses más de nada. Búscate un trabajo de verdad.&quot; CAMERA: Medium shot, the camera stays still as she walks away into the dark. AUDIO: Footsteps fading.</textarea>
+  <p class="line">Camila: &quot;Seis meses más de nada. Búscate un trabajo de verdad.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S03" data-key="FER_E01_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S04">
+  <header class="shot-head"><span class="sid">FER_E01_S04</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 4 de 11 · Cuarto (madrugadas)</p>
+  <img class="frame" src="img/FER_E01_S04.jpg" alt="Fotograma inicial FER_E01_S04" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S04" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: desk lamp on; empty coffee cups. ACTION: Late at night Fercho sits alone at the desk staring at the phone screen, face lit by the glow, then puts the phone face down on the desk. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; humble. Almost a whisper, tired breath. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;Doce vistas... otra vez doce.&quot; CAMERA: Slow push-in from the side. AUDIO: Laptop fan hum, a clock ticking.</textarea>
+  <p class="line">Fercho: &quot;Doce vistas... otra vez doce.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S04" data-key="FER_E01_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S05">
+  <header class="shot-head"><span class="sid">FER_E01_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 11 · Cuarto (madrugadas)</p>
+  <img class="frame" src="img/FER_E01_S05.jpg" alt="Fotograma inicial FER_E01_S05" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S05" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: window turning blue with dawn; notebook open. ACTION: At dawn Fercho wipes his face, opens a notebook and starts writing notes fast, jaw set, the laptop showing a video editor. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Low and firm, pause between the two sentences. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Si no sé, aprendo. Si no pega, lo vuelvo a hacer.&quot; CAMERA: Medium close-up, low angle. AUDIO: Pen scratching, birds starting outside.</textarea>
+  <p class="line">Fercho: &quot;Si no sé, aprendo. Si no pega, lo vuelvo a hacer.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S05" data-key="FER_E01_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S06">
+  <header class="shot-head"><span class="sid">FER_E01_S06</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 6 de 11 · Cuarto (madrugadas)</p>
+  <img class="frame" src="img/FER_E01_S06.jpg" alt="Fotograma inicial FER_E01_S06" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S06" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same desk; same hoodie. ACTION: Fercho holds his worn bank card over the laptop, hesitates, takes a deep breath and types the numbers to pay for an online course. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Slow, a breath before &quot;va para aprender&quot;. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Lo último que tengo... va para aprender.&quot; CAMERA: Close-up on hands and card, then tilt up to his face. AUDIO: Keyboard clicks.</textarea>
+  <p class="line">Fercho: &quot;Lo último que tengo... va para aprender.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S06" data-key="FER_E01_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S07">
+  <header class="shot-head"><span class="sid">FER_E01_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 11 · Cuarto (madrugadas)</p>
+  <img class="frame" src="img/FER_E01_S07.jpg" alt="Fotograma inicial FER_E01_S07" loading="lazy" width="560" height="996">
+  <p class="hint"><b>OJO:</b> En el montaje van los carteles MES 1 · MES 3 · MES 5.</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S07" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same room; ring light on. ACTION: Time passing: Fercho records himself with the phone on the tripod, edits on the laptop, falls asleep on the desk, wakes up and keeps editing; the sticky notes on the wall multiply. No dialogue, no voices, no narration. CAMERA: Locked wide shot with a few soft time-jump cuts. AUDIO: Soft hopeful piano, keyboard clicks.</textarea>
+  <p class="line">Toma muda</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S07" data-key="FER_E01_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S08">
+  <header class="shot-head"><span class="sid">FER_E01_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 11 · Cuarto (madrugadas)</p>
+  <img class="frame" src="img/FER_E01_S08.jpg" alt="Fotograma inicial FER_E01_S08" loading="lazy" width="560" height="996">
+  <p class="hint"><b>OJO:</b> En el montaje: cartel con el número 1.000.000.</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S08" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: morning light in the window. ACTION: The phone on the desk lights up again and again with notifications; Fercho picks it up, freezes, covers his mouth, then laughs with tears in his eyes. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; shocked. Breathless, a laugh breaking through. VOCAL: sudden gasp, high breathless pitch, voice cracking with surprise; telenovela acting, never flat or robotic) &quot;Un millón... ¡un millón de vistas!&quot; CAMERA: Close-up, slow push-in to his eyes. AUDIO: Notification chimes stacking up.</textarea>
+  <p class="line">Fercho: &quot;Un millón... ¡un millón de vistas!&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S08" data-key="FER_E01_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S09">
+  <header class="shot-head"><span class="sid">FER_E01_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 11 · Estudio de creador (6 meses después)</p>
+  <img class="frame" src="img/FER_E01_S09.jpg" alt="Fotograma inicial FER_E01_S09" loading="lazy" width="560" height="996">
+  <p class="hint"><b>OJO:</b> En el montaje: cartel «6 MESES DESPUÉS».</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S09" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: monitors with graphs; Camila at the door. ACTION: Six months later: Fercho works at the big desk of his bright studio; Camila appears at the open glass door, nervous, holding her bag strap. DIALOGUE: Camila says in neutral Latin American Spanish (Young female voice, about 26, clear tone, tired and cold; tender. Soft, a little ashamed, slow. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;Fercho... yo siempre supe que podías.&quot; CAMERA: Wide shot from behind Fercho toward the door. AUDIO: Calm studio ambience.</textarea>
+  <p class="line">Camila: &quot;Fercho... yo siempre supe que podías.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S09" data-key="FER_E01_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S10">
+  <header class="shot-head"><span class="sid">FER_E01_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 11 · Estudio de creador (6 meses después)</p>
+  <img class="frame" src="img/FER_E01_S10.jpg" alt="Fotograma inicial FER_E01_S10" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S10" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same studio; same hoodie. ACTION: Fercho turns his chair slowly toward the door with a calm half smile, no rush. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; calm. Slow, unhurried, a pause after &quot;No, Camila&quot;. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;No, Camila. Lo supiste cuando ya había llegado.&quot; CAMERA: Medium close-up on Fercho. AUDIO: A soft music swell.</textarea>
+  <p class="line">Fercho: &quot;No, Camila. Lo supiste cuando ya había llegado.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S10" data-key="FER_E01_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E01_S11">
+  <header class="shot-head"><span class="sid">FER_E01_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 11 · Estudio de creador (6 meses después)</p>
+  <img class="frame" src="img/FER_E01_S11.jpg" alt="Fotograma inicial FER_E01_S11" loading="lazy" width="560" height="996">
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E01_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E01_S11" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same studio. ACTION: Fercho stands up beside the desk and looks straight into the camera with a warm determined smile, pointing at the viewer. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Warm and firm, stress on &quot;CREAR&quot;. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Persistencia y perseverancia. Si quieres aprender a crear contenido y monetizarlo, escríbeme CREAR.&quot; CAMERA: Medium shot, slow push-in, eye contact with the camera. AUDIO: Uplifting music.</textarea>
+  <p class="line">Fercho: &quot;Persistencia y perseverancia. Si quieres aprender a crear contenido y monetizarlo, escríbeme CREAR.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E01_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E01_S11" data-key="FER_E01_S11"> Hecha</label></div>
+</article></div></section><section class="panel" id="cap2"><div class="cap-head"><h2>Capítulo 2 · Trabajo de verdad</h2><p>11 tomas · ~1:28 · Listo · después del piloto</p></div><div class="grid"><article class="shot" id="FER_E02_S01">
+  <header class="shot-head"><span class="sid">FER_E02_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 11 · Sala de la casa familiar</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S01" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: coffee cups on the table; lamp on. ACTION: Ramón and Rosa sit on the sofa at night speaking low; Ramón rubs his forehead, worried and ashamed, Rosa holds his hand. DIALOGUE: Ramón says in neutral Latin American Spanish (Mature male voice, about 58, deep tired tone; grave. Low, slow, a tired sigh at the end. VOCAL: deep and solemn, dropping to a near whisper on the final words; telenovela acting, never flat or robotic) &quot;Veintiocho años y encerrado haciendo videos. Me da pena con la familia.&quot; CAMERA: Medium two-shot, slow push-in. AUDIO: A clock ticking, quiet TV hum.</textarea>
+  <p class="line">Ramón: &quot;Veintiocho años y encerrado haciendo videos. Me da pena con la familia.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S01" data-key="FER_E02_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S02">
+  <header class="shot-head"><span class="sid">FER_E02_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 11 · Sala de la casa familiar</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S02" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same sofa; same lamp. ACTION: Rosa squeezes Ramón&#x27;s hand and looks toward the hallway door with worried eyes. DIALOGUE: Rosa says in neutral Latin American Spanish (Mature female voice, about 55, warm worried tone; concerned. Soft, a tremble on &quot;miedo&quot;. VOCAL: low, grave and urgent, worried tremble, slow pause in the middle; telenovela acting, never flat or robotic) &quot;Es nuestro hijo, Ramón... aunque yo también tengo miedo.&quot; CAMERA: Close-up on Rosa, Ramón soft in the foreground. AUDIO: Clock ticking.</textarea>
+  <p class="line">Rosa: &quot;Es nuestro hijo, Ramón... aunque yo también tengo miedo.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S02" data-key="FER_E02_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S03">
+  <header class="shot-head"><span class="sid">FER_E02_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 11 · Sala de la casa familiar</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S03" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: hallway door on the left. ACTION: In the dark hallway doorway Fercho stands half hidden, listening; he lowers his eyes and swallows hard. No dialogue, no voices, no narration. CAMERA: Close-up at the doorway, the parents blurred in the background. AUDIO: Muffled voices, then silence.</textarea>
+  <p class="line">Toma muda</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S03" data-key="FER_E02_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S04">
+  <header class="shot-head"><span class="sid">FER_E02_S04</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 4 de 11 · Cuarto (madrugadas)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S04" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: desk lamp on; family photo on the desk. ACTION: Fercho sits at his desk at night, looks at a framed family photo, places it next to the laptop and opens the laptop with decision. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Low, firm, slow. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Ellos no tienen que creer todavía. Yo sí.&quot; CAMERA: Medium close-up from the side. AUDIO: Laptop starting up.</textarea>
+  <p class="line">Fercho: &quot;Ellos no tienen que creer todavía. Yo sí.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S04" data-key="FER_E02_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S05">
+  <header class="shot-head"><span class="sid">FER_E02_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 11 · Cuarto (madrugadas)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S05" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: window still dark. ACTION: At four in the morning Ramón opens the bedroom door in pajamas and sees Fercho still editing; Fercho answers without stopping. DIALOGUE: Ramón says in neutral Latin American Spanish (Mature male voice, about 58, deep tired tone; concerned. Sleepy, dry. VOCAL: low, grave and urgent, worried tremble, slow pause in the middle; telenovela acting, never flat or robotic) &quot;¿Todavía con eso? Son las cuatro de la mañana.&quot; Then Fercho answers in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; calm. Calm, firm, without looking away from the screen. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting) &quot;Y mañana a las cuatro también, papá.&quot; CAMERA: Wide shot from the door. AUDIO: Keyboard clicks.</textarea>
+  <p class="line">Ramón: &quot;¿Todavía con eso? Son las cuatro de la mañana.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S05" data-key="FER_E02_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S06">
+  <header class="shot-head"><span class="sid">FER_E02_S06</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 6 de 11 · Cuarto (madrugadas)</p>
+  
+  <p class="hint"><b>OJO:</b> En el montaje: cartel MES 2 · MES 4.</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S06" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: sticky notes multiplying. ACTION: Fercho checks a video with very few views, rubs his eyes, then starts editing again, faster. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Short, firm. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Otra vez. Hasta que salga.&quot; CAMERA: Close-up on his face lit by the screen. AUDIO: Keyboard clicks, soft tense music.</textarea>
+  <p class="line">Fercho: &quot;Otra vez. Hasta que salga.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S06" data-key="FER_E02_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S07">
+  <header class="shot-head"><span class="sid">FER_E02_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 11 · Cuarto (madrugadas)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S07" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: morning light. ACTION: Early morning: the phone buzzes with a payment notification; Fercho reads it, covers his mouth, eyes wet, a trembling smile. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; tender. Whisper, voice breaking. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;Mi primer pago... por un video.&quot; CAMERA: Close-up, slow push-in. AUDIO: A single notification chime, then silence.</textarea>
+  <p class="line">Fercho: &quot;Mi primer pago... por un video.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S07" data-key="FER_E02_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S08">
+  <header class="shot-head"><span class="sid">FER_E02_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 11 · Sala de la casa familiar</p>
+  
+  <p class="hint"><b>OJO:</b> En el montaje: cartel «6 MESES DESPUÉS».</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S08" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: envelope behind his back. ACTION: Months later in daylight, Fercho walks into the living room smiling with a white envelope behind his back; his parents look up from the sofa. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; calm. Playful, warm. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;Cierren los ojos. Tengo algo para ustedes.&quot; CAMERA: Wide shot of the living room. AUDIO: Warm light music.</textarea>
+  <p class="line">Fercho: &quot;Cierren los ojos. Tengo algo para ustedes.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S08" data-key="FER_E02_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S09">
+  <header class="shot-head"><span class="sid">FER_E02_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 11 · Sala de la casa familiar</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S09" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: paper in Ramón&#x27;s hands. ACTION: Ramón opens the envelope and reads a paper stamped as paid; Rosa covers her mouth with tears; Ramón looks up at his son. DIALOGUE: Ramón says in neutral Latin American Spanish (Mature male voice, about 58, deep tired tone; tender. Voice breaking, slow. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;La deuda de la casa... pagada. Y yo pensando que perdías el tiempo.&quot; CAMERA: Close-up on Ramón with the paper, Rosa beside him. AUDIO: Soft emotional strings.</textarea>
+  <p class="line">Ramón: &quot;La deuda de la casa... pagada. Y yo pensando que perdías el tiempo.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S09" data-key="FER_E02_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S10">
+  <header class="shot-head"><span class="sid">FER_E02_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 11 · Sala de la casa familiar</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S10" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same living room. ACTION: Fercho kneels in front of his father and they hug tightly; Rosa joins the hug. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; tender. Soft, emotional. VOCAL: warm, emotional, close to tears, soft whisper on the last word; telenovela acting, never flat or robotic) &quot;No lo perdía, papá. Lo estaba sembrando.&quot; CAMERA: Medium shot, slow orbit. AUDIO: Emotional music swell.</textarea>
+  <p class="line">Fercho: &quot;No lo perdía, papá. Lo estaba sembrando.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S10" data-key="FER_E02_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E02_S11">
+  <header class="shot-head"><span class="sid">FER_E02_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 11 · Sala de la casa familiar</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E02_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E02_S11" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same living room. ACTION: Fercho stands in the living room, wipes his eyes, smiles and looks straight into the camera, pointing at the viewer. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Warm and firm, stress on &quot;CREAR&quot;. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Persistencia y perseverancia. Si quieres aprender a crear contenido y monetizarlo, escríbeme CREAR.&quot; CAMERA: Medium shot, slow push-in, eye contact with the camera. AUDIO: Uplifting music.</textarea>
+  <p class="line">Fercho: &quot;Persistencia y perseverancia. Si quieres aprender a crear contenido y monetizarlo, escríbeme CREAR.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E02_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E02_S11" data-key="FER_E02_S11"> Hecha</label></div>
+</article></div></section><section class="panel" id="cap3"><div class="cap-head"><h2>Capítulo 3 · El mentor</h2><p>11 tomas · ~1:28 · Listo · después del piloto</p></div><div class="grid"><article class="shot" id="FER_E03_S01">
+  <header class="shot-head"><span class="sid">FER_E03_S01</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 1 de 11 · Calle del barrio, de noche</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S01">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S01" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: streetlight above; Diego&#x27;s phone in Kevin&#x27;s hand. ACTION: On the sidewalk at night Kevin laughs while showing Diego his own phone screen; Diego stands with his head down. DIALOGUE: Kevin says in neutral Latin American Spanish (Young male voice, about 24, loud cocky tone; mocking. Laughs between the words. VOCAL: high sing-song teasing pitch, loud and cocky, a smug little laugh breaking through the words, stretching each word; telenovela acting, never flat or robotic) &quot;¿Cuarenta vistas? Hermano, deja eso ya. Das pena.&quot; CAMERA: Medium two-shot, handheld. AUDIO: Street ambience.</textarea>
+  <p class="line">Kevin: &quot;¿Cuarenta vistas? Hermano, deja eso ya. Das pena.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S01_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S01" data-key="FER_E03_S01"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S02">
+  <header class="shot-head"><span class="sid">FER_E03_S02</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 2 de 11 · Calle del barrio, de noche</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S02">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S02" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: grey hoodie; glasses. ACTION: Diego takes back his phone and looks at it, hurt, holding back tears. DIALOGUE: Diego says in neutral Latin American Spanish (Young male voice, about 23, soft tone; humble. Soft, broken, trailing off. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;Llevo ocho meses subiendo un video cada día...&quot; CAMERA: Close-up on Diego. AUDIO: Kevin&#x27;s laugh fading in the distance.</textarea>
+  <p class="line">Diego: &quot;Llevo ocho meses subiendo un video cada día...&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S02_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S02" data-key="FER_E03_S02"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S03">
+  <header class="shot-head"><span class="sid">FER_E03_S03</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 3 de 11 · Calle del barrio, de noche</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S03">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S03" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: both on the curb. ACTION: Diego sits alone on the curb; Fercho walks up and sits next to him, looking at him with respect. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; calm. Warm, slow. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;¿Ocho meses todos los días? Eso no lo hace cualquiera.&quot; CAMERA: Wide two-shot from the front. AUDIO: Quiet night.</textarea>
+  <p class="line">Fercho: &quot;¿Ocho meses todos los días? Eso no lo hace cualquiera.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S03_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S03" data-key="FER_E03_S03"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S04">
+  <header class="shot-head"><span class="sid">FER_E03_S04</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 4 de 11 · Estudio de creador (6 meses después)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S04">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S04" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: monitor with the paused video. ACTION: In the bright studio Fercho plays Diego&#x27;s video on the big monitor and pauses it at the first seconds, pointing at the screen while Diego watches. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Clear teacher tone, stress on &quot;tres segundos&quot;. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Tu problema no es el esfuerzo. Es que en los primeros tres segundos no pasa nada.&quot; CAMERA: Over-the-shoulder shot toward the monitor. AUDIO: Calm studio ambience.</textarea>
+  <p class="line">Fercho: &quot;Tu problema no es el esfuerzo. Es que en los primeros tres segundos no pasa nada.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S04_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S04" data-key="FER_E03_S04"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S05">
+  <header class="shot-head"><span class="sid">FER_E03_S05</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 5 de 11 · Estudio de creador (6 meses después)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S05">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S05" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same studio. ACTION: Diego turns to Fercho, eager; Fercho counts on three fingers. DIALOGUE: Diego says in neutral Latin American Spanish (Young male voice, about 23, soft tone; curious. Quick, hopeful. VOCAL: intrigued, rising pitch, playful suspense, leaning in; telenovela acting, never flat or robotic) &quot;¿Y qué hago?&quot; Then Fercho answers in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Firm, a pause between each word. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting) &quot;Gancho, historia y final. Y lo repites hasta que salga.&quot; CAMERA: Medium two-shot. AUDIO: Soft music.</textarea>
+  <p class="line">Diego: &quot;¿Y qué hago?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S05_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S05" data-key="FER_E03_S05"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S06">
+  <header class="shot-head"><span class="sid">FER_E03_S06</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 6 de 11 · Cuarto (madrugadas)</p>
+  
+  <p class="hint"><b>OJO:</b> En el montaje: cartel SEMANA 1 · SEMANA 4.</p>
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S06">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S06" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: sticky notes on the wall; coffee cups. ACTION: At night Diego edits on the laptop in the small bedroom, deletes a clip and tries again, repeating the three steps under his breath. DIALOGUE: Diego says in neutral Latin American Spanish (Young male voice, about 23, soft tone; determined. Whisper, focused. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Gancho, historia, final... otra vez.&quot; CAMERA: Medium close-up from the side. AUDIO: Keyboard clicks.</textarea>
+  <p class="line">Diego: &quot;Gancho, historia, final... otra vez.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S06_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S06" data-key="FER_E03_S06"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S07">
+  <header class="shot-head"><span class="sid">FER_E03_S07</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 7 de 11 · Cuarto (madrugadas)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S07">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S07" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: dawn light in the window. ACTION: At dawn the phone lights up with notifications; Diego reads it, pushes up his glasses and stares in shock. DIALOGUE: Diego says in neutral Latin American Spanish (Young male voice, about 23, soft tone; shocked. Breathless, rising pitch. VOCAL: sudden gasp, high breathless pitch, voice cracking with surprise; telenovela acting, never flat or robotic) &quot;¿Doscientas mil vistas? ¿Doscientas mil?&quot; CAMERA: Close-up, slow push-in. AUDIO: Notification chimes stacking up.</textarea>
+  <p class="line">Diego: &quot;¿Doscientas mil vistas? ¿Doscientas mil?&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S07_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S07" data-key="FER_E03_S07"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S08">
+  <header class="shot-head"><span class="sid">FER_E03_S08</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 8 de 11 · Calle del barrio, de noche</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S08">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S08" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: Kevin holds the red cap. ACTION: On the same sidewalk Kevin walks up to Diego, cap in his hands, embarrassed, avoiding his eyes. DIALOGUE: Kevin says in neutral Latin American Spanish (Young male voice, about 24, loud cocky tone; humble. Low, embarrassed, small nervous laugh. VOCAL: soft, hurt and tired, small nervous laugh, voice slightly breaking; telenovela acting, never flat or robotic) &quot;Oye, Diego... ¿cómo hiciste eso? Enséñame, pues.&quot; CAMERA: Medium two-shot. AUDIO: Street ambience.</textarea>
+  <p class="line">Kevin: &quot;Oye, Diego... ¿cómo hiciste eso? Enséñame, pues.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S08_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S08" data-key="FER_E03_S08"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S09">
+  <header class="shot-head"><span class="sid">FER_E03_S09</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 9 de 11 · Calle del barrio, de noche</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S09">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S09" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: glasses; grey hoodie. ACTION: Diego smiles calmly and puts his phone in his pocket. DIALOGUE: Diego says in neutral Latin American Spanish (Young male voice, about 23, soft tone; calm. Slow, calm, a small smile. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;Lo que tú me dijiste que dejara. No lo dejé.&quot; CAMERA: Close-up on Diego. AUDIO: A soft music swell.</textarea>
+  <p class="line">Diego: &quot;Lo que tú me dijiste que dejara. No lo dejé.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S09_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S09" data-key="FER_E03_S09"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S10">
+  <header class="shot-head"><span class="sid">FER_E03_S10</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 10 de 11 · Estudio de creador (6 meses después)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S10">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S10" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: monitors with graphs. ACTION: In the studio Fercho and Diego bump fists, both smiling; the monitor behind shows rising graphs. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; calm. Proud, warm. VOCAL: warm, proud and unhurried, gentle rise of emotion; telenovela acting, never flat or robotic) &quot;El talento ayuda. La constancia es la que paga.&quot; CAMERA: Medium two-shot. AUDIO: Uplifting music.</textarea>
+  <p class="line">Fercho: &quot;El talento ayuda. La constancia es la que paga.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S10_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S10" data-key="FER_E03_S10"> Hecha</label></div>
+</article>
+<article class="shot" id="FER_E03_S11">
+  <header class="shot-head"><span class="sid">FER_E03_S11</span><span class="dur">8s</span></header>
+  <p class="meta">Toma 11 de 11 · Estudio de creador (6 meses después)</p>
+  
+  
+  <p class="hint">Mantén presionada la imagen para guardarla. En Flow súbela como fotograma inicial y elige <b>8s</b> de duración.</p>
+  <button class="copy" type="button" data-target="p-FER_E03_S11">Copiar prompt</button>
+  <textarea class="ptext" id="p-FER_E03_S11" readonly rows="4">Animate the provided starting frame. 3D animated Pixar-style feature film, expressive stylized characters, soft cinematic lighting, emotional drama, vertical 9:16. CONTINUITY: set, props, clothes and faces stay exactly as in the starting frame; nothing appears or disappears; no new characters; no on-screen text. KEEP: same studio. ACTION: Fercho turns to the camera alone in the studio with a warm determined smile, pointing at the viewer. DIALOGUE: Fercho says in neutral Latin American Spanish (Adult male voice, about 28, warm mid tone, sincere and determined; determined. Warm and firm, stress on &quot;CREAR&quot;. VOCAL: low, firm and slow, controlled strength under the voice, heavy pauses before the key words; telenovela acting, never flat or robotic) &quot;Yo enseño esto. Si quieres que te guíe, escríbeme CREAR. Persistencia y perseverancia.&quot; CAMERA: Medium shot, slow push-in, eye contact with the camera. AUDIO: Uplifting music.</textarea>
+  <p class="line">Fercho: &quot;Yo enseño esto. Si quieres que te guíe, escríbeme CREAR. Persistencia y perseverancia.&quot;</p>
+  <div class="foot"><span>Archivo:</span> <code>FER_E03_S11_v01.mp4</code>
+    <label class="done"><input type="checkbox" id="ok-FER_E03_S11" data-key="FER_E03_S11"> Hecha</label></div>
+</article></div></section>
+<script>
+const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')];
+function show(id){ panels.forEach(p=>p.hidden=p.id!==id); tabs.forEach(t=>t.setAttribute('aria-selected', t.dataset.tab===id)); try{localStorage.setItem('tab',id)}catch(e){} }
+tabs.forEach(t=>t.addEventListener('click',()=>{show(t.dataset.tab); window.scrollTo(0,0);}));
+let start='cap1'; try{ start=localStorage.getItem('tab')||'cap1' }catch(e){}
+if(location.hash && document.getElementById(location.hash.slice(1))?.classList.contains('panel')) start=location.hash.slice(1);
+const h=location.hash.slice(1), shot=h&&document.getElementById(h);
+if(shot&&shot.classList.contains('shot')){ start=shot.closest('.panel').id; }
+show(document.getElementById(start)?start:'cap1');
+if(shot&&shot.classList.contains('shot')) setTimeout(()=>shot.scrollIntoView({block:'start'}),50);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const ta=document.getElementById(b.dataset.target), label=b.textContent;
+  try{ await navigator.clipboard.writeText(ta.value); }
+  catch(e){ ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); try{document.execCommand('copy')}catch(_){} }
+  b.classList.add('ok'); b.textContent='Copiado ✓'; setTimeout(()=>{b.classList.remove('ok'); b.textContent=label;},1600);
+}));
+document.querySelectorAll('.done input').forEach(cb=>{
+  const k='ok-'+cb.dataset.key, card=cb.closest('.shot');
+  try{ cb.checked=localStorage.getItem(k)==='1' }catch(e){}
+  card.classList.toggle('is-done',cb.checked);
+  cb.addEventListener('change',()=>{ card.classList.toggle('is-done',cb.checked); try{localStorage.setItem(k,cb.checked?'1':'0')}catch(e){} });
+});
+</script>
